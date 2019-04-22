@@ -3,6 +3,9 @@ namespace Model;
 
 use Util\IdGenerator;
 
+/**
+ * Represents an artifact that belongs to an item in the info depot.
+ */
 class InfoDepotItemArtifact {
 
     /** @var string */

@@ -28,6 +28,8 @@ class InfoDepotItem {
     private $helpfulCount = 0;
     /** @var int */
     private $unhelpfulCount = 0;
+    /** @var InfoDepotComment[] */
+    private $comments = array();
 
     /**
      * Constructs a new instance of an item in the info depot. 
@@ -190,41 +192,6 @@ class InfoDepotItem {
     }
 
     /**
-     * Retrieves one artifact from the internal associative array.
-     *
-     * @param string $id the ID of the artifact to fetch
-     * @return InfoDepotItemArtifact|boolean the artifact if it exists, false otherwise
-     */
-    public function getArtifact($id) {
-        return $this->artifacts[$id];
-    }
-
-    /**
-     * Adds an artifact to the item.
-     * 
-     * If an artifact with the same ID as the provided artifact already exists internally, it will be overwritten.
-     *
-     * @param InfoDepotItemArtifact $artifact the artifact to add
-     * @return self
-     */
-    public function addArtifact($artifact) {
-        $artifact->setParentItem($this);
-        $this->artifacts[$artifact->getId()] = $artifact;
-        return $this;
-    }
-
-    /**
-     * Removes an artifact from the item.
-     * 
-     * TODO: implement this method. RUnning into an error trying to unset() the value from the associative array
-     * 
-     * `syntax error, unexpected 'unset' (T_UNSET), expecting identifier (T_STRING)`
-     *
-     * @param InfoDepotItemArtifact $artifact the artifact to remove
-     * @return self
-     */
-
-    /**
      * Get the value of helpfulCount
      */ 
     public function getHelpfulCount() {
@@ -256,6 +223,24 @@ class InfoDepotItem {
      */ 
     public function setUnhelpfulCount($unhelpfulCount) {
         $this->unhelpfulCount = $unhelpfulCount;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of comments
+     */ 
+    public function getComments() {
+        return $this->comments;
+    }
+
+    /**
+     * Set the value of comments
+     *
+     * @return  self
+     */ 
+    public function setComments($comments) {
+        $this->comments = $comments;
 
         return $this;
     }
