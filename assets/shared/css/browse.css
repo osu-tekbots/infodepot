@@ -102,9 +102,10 @@ body {
 }
 .list .info-keywords {
   display: inline-block;
-  width: 100px;
+  width: 30%;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 
 .info-category .category {
@@ -168,6 +169,7 @@ body {
 }
 .grid .info-courseName,
 .grid .info-keywords {
+  display: block;
   color: #A1A1A4;
 }
 .grid .info-rating {

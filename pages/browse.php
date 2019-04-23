@@ -16,10 +16,6 @@
     <title>Browse Items</title>
   </head>
   <body>
-      <?php
-      $ratingnumber = 75;
-      $infocategory = "Hardware Specific";
-      ?>
         <!-- NAV BAR -->
         <nav class="navbar fixed-top navbar-light bg-light">
             <a class="navbar-brand" href="#">InfoDepot</a>
@@ -33,10 +29,14 @@
         <ul class="infos grid">
         <!-- SINGLE ITEM START -->
         <li class="info-item">
+                <?php
+                    $ratingnumber = 54;
+                    $infocategory = "Hardware Specific";
+                ?>
             
              <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
             <span class="info-courseName list-only">
-            Course Name
+            EE324
             </span>
             
             <!-- Put Title of Info Snippet -->
@@ -46,10 +46,18 @@
             
             <!-- Put Course Name Here for grid display -->
             <span class="info-courseName grid-only">
-            Course Name
+            EE324 
             </span>
+
+            <span class="info-keywords">
+            Arduino, Coding, Arduino Uno, Command
+            </span>
+
             
             <div class="pull-right">
+
+            <!-- List of comma seperated keywords -->
+
             
             <span class="info-rating">
                 <span class="info-rating-bg">
@@ -59,7 +67,7 @@
                     echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
                 }
                 else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
+                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #ffc83f;"></span>');
                 }
                 else {
                     echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
@@ -76,7 +84,7 @@
                     </span>');
                 }
                 else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-label" style="color: yellow;">
+                    echo('<span class="info-rating-label" style="color: #ffc83f;">
                     '.$ratingnumber.'%
                     </span>');
                 }
@@ -96,15 +104,11 @@
                 </span>
             </span>
             
-            <!-- List of comma seperated keywords -->
-            <span class="info-keywords">
-                Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-            </span>
 
             <?php
             if ($infocategory == "Tip"){
                 echo('<span class="info-category">
-                    <span class="category tip active" style="background:yellow;">Tip</span>
+                    <span class="category tip active" style="background:#ffc83f;">Tip</span>
                     <span class="category walkthrough">Walkthrough</span>
                     <span class="category hardwarespecific">Hardware Specific</span>
                     <span class="category general">General</span>        
@@ -139,135 +143,38 @@
             </div>
         </li>
         <!-- SINGLE ITEM END -->
-
-         <!-- SINGLE ITEM START -->
-         <li class="info-item">
-            
-            <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
-           <span class="info-courseName list-only">
-           Course Name
-           </span>
-           
-           <!-- Put Title of Info Snippet -->
-           <span class="info-name">
-           Coding in an Arduino Uno
-           </span>
-           
-           <!-- Put Course Name Here for grid display -->
-           <span class="info-courseName grid-only">
-           Course Name
-           </span>
-           
-           <div class="pull-right">
-           
-           <span class="info-rating">
-               <span class="info-rating-bg">
-               <!-- Bar color -->
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
-               }
-               else {
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
-               }
-
-               ?>
-               </span>
-               <!-- Color for percentage -->
-               <span class="info-rating-labels">
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-label" style="color:  #8DC63F;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-label" style="color: yellow;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else {
-                   echo('<span class="info-rating-label" style="color: red;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-
-               ?>
-
-               <!-- Location for thumb icons -->
-               <span class="info-thumbs">
-                   <i class="thumbs-up far fa-thumbs-up"></i>
-                   <i class="thumbs-down far fa-thumbs-down"></i>
-               </span>
-               </span>
-           </span>
-           
-           <!-- List of comma seperated keywords -->
-           <span class="info-keywords">
-               Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-           </span>
-
-           <?php
-           if ($infocategory == "Tip"){
-               echo('<span class="info-category">
-                   <span class="category tip active" style="background:yellow;">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Walkthrough"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough active" style="background:blue;">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Hardware Specific"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else {
-               echo('<span class="info-category">
-               <span class="category tip">Tip</span>
-               <span class="category walkthrough">Walkthrough</span>
-               <span class="category hardwarespecific">Hardware Specific</span>
-               <span class="category general active" style="background:black;">General</span>        
-               </span>');
-           }
-
-           ?>
-           </div>
-       </li>
-       <!-- SINGLE ITEM END -->
 
         <!-- SINGLE ITEM START -->
         <li class="info-item">
+                <?php
+                    $ratingnumber = 84;
+                    $infocategory = "Tip";
+                ?>
             
              <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
             <span class="info-courseName list-only">
-            Course Name
+            General Info
             </span>
             
             <!-- Put Title of Info Snippet -->
             <span class="info-name">
-            Coding in an Arduino Uno
+            Making your VS Code Worksplace Window Larger
             </span>
             
             <!-- Put Course Name Here for grid display -->
             <span class="info-courseName grid-only">
-            Course Name
+            General Info
             </span>
+
+            <span class="info-keywords">
+            VS Code, Window, Coding
+            </span>
+
             
             <div class="pull-right">
+
+            <!-- List of comma seperated keywords -->
+
             
             <span class="info-rating">
                 <span class="info-rating-bg">
@@ -277,7 +184,7 @@
                     echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
                 }
                 else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
+                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #ffc83f;"></span>');
                 }
                 else {
                     echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
@@ -294,7 +201,7 @@
                     </span>');
                 }
                 else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-label" style="color: yellow;">
+                    echo('<span class="info-rating-label" style="color: #ffc83f;">
                     '.$ratingnumber.'%
                     </span>');
                 }
@@ -314,15 +221,11 @@
                 </span>
             </span>
             
-            <!-- List of comma seperated keywords -->
-            <span class="info-keywords">
-                Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-            </span>
 
             <?php
             if ($infocategory == "Tip"){
                 echo('<span class="info-category">
-                    <span class="category tip active" style="background:yellow;">Tip</span>
+                    <span class="category tip active" style="background:#ffc83f;">Tip</span>
                     <span class="category walkthrough">Walkthrough</span>
                     <span class="category hardwarespecific">Hardware Specific</span>
                     <span class="category general">General</span>        
@@ -357,135 +260,155 @@
             </div>
         </li>
         <!-- SINGLE ITEM END -->
-
-         <!-- SINGLE ITEM START -->
-         <li class="info-item">
+        
+        <!-- SINGLE ITEM START -->
+        <li class="info-item">
+                <?php
+                    $ratingnumber = 66;
+                    $infocategory = "General";
+                ?>
             
-            <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
-           <span class="info-courseName list-only">
-           Course Name
-           </span>
-           
-           <!-- Put Title of Info Snippet -->
-           <span class="info-name">
-           Coding in an Arduino Uno
-           </span>
-           
-           <!-- Put Course Name Here for grid display -->
-           <span class="info-courseName grid-only">
-           Course Name
-           </span>
-           
-           <div class="pull-right">
-           
-           <span class="info-rating">
-               <span class="info-rating-bg">
-               <!-- Bar color -->
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
-               }
-               else {
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
-               }
+             <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
+            <span class="info-courseName list-only">
+            EE922
+            </span>
+            
+            <!-- Put Title of Info Snippet -->
+            <span class="info-name">
+            When you chop off electrical wire - why electrons do not drop off?
+            </span>
+            
+            <!-- Put Course Name Here for grid display -->
+            <span class="info-courseName grid-only">
+            EE324 
+            </span>
 
-               ?>
-               </span>
-               <!-- Color for percentage -->
-               <span class="info-rating-labels">
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-label" style="color:  #8DC63F;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-label" style="color: yellow;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else {
-                   echo('<span class="info-rating-label" style="color: red;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
+            <span class="info-keywords">
+            Electrons, Electrical, EE, Wires
+            </span>
 
-               ?>
+            
+            <div class="pull-right">
 
-               <!-- Location for thumb icons -->
-               <span class="info-thumbs">
-                   <i class="thumbs-up far fa-thumbs-up"></i>
-                   <i class="thumbs-down far fa-thumbs-down"></i>
-               </span>
-               </span>
-           </span>
-           
-           <!-- List of comma seperated keywords -->
-           <span class="info-keywords">
-               Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-           </span>
+            <!-- List of comma seperated keywords -->
 
-           <?php
-           if ($infocategory == "Tip"){
-               echo('<span class="info-category">
-                   <span class="category tip active" style="background:yellow;">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Walkthrough"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough active" style="background:blue;">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Hardware Specific"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else {
-               echo('<span class="info-category">
-               <span class="category tip">Tip</span>
-               <span class="category walkthrough">Walkthrough</span>
-               <span class="category hardwarespecific">Hardware Specific</span>
-               <span class="category general active" style="background:black;">General</span>        
-               </span>');
-           }
+            
+            <span class="info-rating">
+                <span class="info-rating-bg">
+                <!-- Bar color -->
+                <?php
+                if ($ratingnumber > 65){
+                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
+                }
+                else if ($ratingnumber > 40){
+                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #ffc83f;"></span>');
+                }
+                else {
+                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
+                }
 
-           ?>
-           </div>
-       </li>
-       <!-- SINGLE ITEM END -->
+                ?>
+                </span>
+                <!-- Color for percentage -->
+                <span class="info-rating-labels">
+                <?php
+                if ($ratingnumber > 65){
+                    echo('<span class="info-rating-label" style="color:  #8DC63F;">
+                    '.$ratingnumber.'%
+                    </span>');
+                }
+                else if ($ratingnumber > 40){
+                    echo('<span class="info-rating-label" style="color: #ffc83f;">
+                    '.$ratingnumber.'%
+                    </span>');
+                }
+                else {
+                    echo('<span class="info-rating-label" style="color: red;">
+                    '.$ratingnumber.'%
+                    </span>');
+                }
+
+                ?>
+
+                <!-- Location for thumb icons -->
+                <span class="info-thumbs">
+                    <i class="thumbs-up far fa-thumbs-up"></i>
+                    <i class="thumbs-down far fa-thumbs-down"></i>
+                </span>
+                </span>
+            </span>
+            
+
+            <?php
+            if ($infocategory == "Tip"){
+                echo('<span class="info-category">
+                    <span class="category tip active" style="background:#ffc83f;">Tip</span>
+                    <span class="category walkthrough">Walkthrough</span>
+                    <span class="category hardwarespecific">Hardware Specific</span>
+                    <span class="category general">General</span>        
+                </span>');
+            }
+            else if ($infocategory == "Walkthrough"){
+                echo('<span class="info-category">
+                    <span class="category tip">Tip</span>
+                    <span class="category walkthrough active" style="background:blue;">Walkthrough</span>
+                    <span class="category hardwarespecific">Hardware Specific</span>
+                    <span class="category general">General</span>        
+                </span>');
+            }
+            else if ($infocategory == "Hardware Specific"){
+                echo('<span class="info-category">
+                    <span class="category tip">Tip</span>
+                    <span class="category walkthrough">Walkthrough</span>
+                    <span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
+                    <span class="category general">General</span>        
+                </span>');
+            }
+            else {
+                echo('<span class="info-category">
+                <span class="category tip">Tip</span>
+                <span class="category walkthrough">Walkthrough</span>
+                <span class="category hardwarespecific">Hardware Specific</span>
+                <span class="category general active" style="background:black;">General</span>        
+                </span>');
+            }
+
+            ?>
+            </div>
+        </li>
+        <!-- SINGLE ITEM END -->
 
         <!-- SINGLE ITEM START -->
         <li class="info-item">
-            
+        <?php
+            $ratingnumber = 32;
+            $infocategory = "Walkthrough";
+        ?>
+    
              <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
             <span class="info-courseName list-only">
-            Course Name
+            CS290
             </span>
             
             <!-- Put Title of Info Snippet -->
             <span class="info-name">
-            Coding in an Arduino Uno
+            How to make a big box in php and name it bob
             </span>
             
             <!-- Put Course Name Here for grid display -->
             <span class="info-courseName grid-only">
-            Course Name
+            CS290
             </span>
+
+            <span class="info-keywords">
+            Website Development, PHP, Box
+            </span>
+
             
             <div class="pull-right">
+
+            <!-- List of comma seperated keywords -->
+
             
             <span class="info-rating">
                 <span class="info-rating-bg">
@@ -495,7 +418,7 @@
                     echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
                 }
                 else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
+                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #ffc83f;"></span>');
                 }
                 else {
                     echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
@@ -512,7 +435,7 @@
                     </span>');
                 }
                 else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-label" style="color: yellow;">
+                    echo('<span class="info-rating-label" style="color: #ffc83f;">
                     '.$ratingnumber.'%
                     </span>');
                 }
@@ -532,15 +455,11 @@
                 </span>
             </span>
             
-            <!-- List of comma seperated keywords -->
-            <span class="info-keywords">
-                Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-            </span>
 
             <?php
             if ($infocategory == "Tip"){
                 echo('<span class="info-category">
-                    <span class="category tip active" style="background:yellow;">Tip</span>
+                    <span class="category tip active" style="background:#ffc83f;">Tip</span>
                     <span class="category walkthrough">Walkthrough</span>
                     <span class="category hardwarespecific">Hardware Specific</span>
                     <span class="category general">General</span>        
@@ -576,550 +495,9 @@
         </li>
         <!-- SINGLE ITEM END -->
 
-         <!-- SINGLE ITEM START -->
-         <li class="info-item">
-            
-            <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
-           <span class="info-courseName list-only">
-           Course Name
-           </span>
-           
-           <!-- Put Title of Info Snippet -->
-           <span class="info-name">
-           Coding in an Arduino Uno
-           </span>
-           
-           <!-- Put Course Name Here for grid display -->
-           <span class="info-courseName grid-only">
-           Course Name
-           </span>
-           
-           <div class="pull-right">
-           
-           <span class="info-rating">
-               <span class="info-rating-bg">
-               <!-- Bar color -->
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
-               }
-               else {
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
-               }
+        
 
-               ?>
-               </span>
-               <!-- Color for percentage -->
-               <span class="info-rating-labels">
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-label" style="color:  #8DC63F;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-label" style="color: yellow;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else {
-                   echo('<span class="info-rating-label" style="color: red;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-
-               ?>
-
-               <!-- Location for thumb icons -->
-               <span class="info-thumbs">
-                   <i class="thumbs-up far fa-thumbs-up"></i>
-                   <i class="thumbs-down far fa-thumbs-down"></i>
-               </span>
-               </span>
-           </span>
-           
-           <!-- List of comma seperated keywords -->
-           <span class="info-keywords">
-               Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-           </span>
-
-           <?php
-           if ($infocategory == "Tip"){
-               echo('<span class="info-category">
-                   <span class="category tip active" style="background:yellow;">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Walkthrough"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough active" style="background:blue;">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Hardware Specific"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else {
-               echo('<span class="info-category">
-               <span class="category tip">Tip</span>
-               <span class="category walkthrough">Walkthrough</span>
-               <span class="category hardwarespecific">Hardware Specific</span>
-               <span class="category general active" style="background:black;">General</span>        
-               </span>');
-           }
-
-           ?>
-           </div>
-       </li>
-       <!-- SINGLE ITEM END -->
-
-        <!-- SINGLE ITEM START -->
-        <li class="info-item">
-            
-             <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
-            <span class="info-courseName list-only">
-            Course Name
-            </span>
-            
-            <!-- Put Title of Info Snippet -->
-            <span class="info-name">
-            Coding in an Arduino Uno
-            </span>
-            
-            <!-- Put Course Name Here for grid display -->
-            <span class="info-courseName grid-only">
-            Course Name
-            </span>
-            
-            <div class="pull-right">
-            
-            <span class="info-rating">
-                <span class="info-rating-bg">
-                <!-- Bar color -->
-                <?php
-                if ($ratingnumber > 65){
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
-                }
-                else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
-                }
-                else {
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
-                }
-
-                ?>
-                </span>
-                <!-- Color for percentage -->
-                <span class="info-rating-labels">
-                <?php
-                if ($ratingnumber > 65){
-                    echo('<span class="info-rating-label" style="color:  #8DC63F;">
-                    '.$ratingnumber.'%
-                    </span>');
-                }
-                else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-label" style="color: yellow;">
-                    '.$ratingnumber.'%
-                    </span>');
-                }
-                else {
-                    echo('<span class="info-rating-label" style="color: red;">
-                    '.$ratingnumber.'%
-                    </span>');
-                }
-
-                ?>
-
-                <!-- Location for thumb icons -->
-                <span class="info-thumbs">
-                    <i class="thumbs-up far fa-thumbs-up"></i>
-                    <i class="thumbs-down far fa-thumbs-down"></i>
-                </span>
-                </span>
-            </span>
-            
-            <!-- List of comma seperated keywords -->
-            <span class="info-keywords">
-                Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-            </span>
-
-            <?php
-            if ($infocategory == "Tip"){
-                echo('<span class="info-category">
-                    <span class="category tip active" style="background:yellow;">Tip</span>
-                    <span class="category walkthrough">Walkthrough</span>
-                    <span class="category hardwarespecific">Hardware Specific</span>
-                    <span class="category general">General</span>        
-                </span>');
-            }
-            else if ($infocategory == "Walkthrough"){
-                echo('<span class="info-category">
-                    <span class="category tip">Tip</span>
-                    <span class="category walkthrough active" style="background:blue;">Walkthrough</span>
-                    <span class="category hardwarespecific">Hardware Specific</span>
-                    <span class="category general">General</span>        
-                </span>');
-            }
-            else if ($infocategory == "Hardware Specific"){
-                echo('<span class="info-category">
-                    <span class="category tip">Tip</span>
-                    <span class="category walkthrough">Walkthrough</span>
-                    <span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
-                    <span class="category general">General</span>        
-                </span>');
-            }
-            else {
-                echo('<span class="info-category">
-                <span class="category tip">Tip</span>
-                <span class="category walkthrough">Walkthrough</span>
-                <span class="category hardwarespecific">Hardware Specific</span>
-                <span class="category general active" style="background:black;">General</span>        
-                </span>');
-            }
-
-            ?>
-            </div>
-        </li>
-        <!-- SINGLE ITEM END -->
-
-         <!-- SINGLE ITEM START -->
-         <li class="info-item">
-            
-            <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
-           <span class="info-courseName list-only">
-           Course Name
-           </span>
-           
-           <!-- Put Title of Info Snippet -->
-           <span class="info-name">
-           Coding in an Arduino Uno
-           </span>
-           
-           <!-- Put Course Name Here for grid display -->
-           <span class="info-courseName grid-only">
-           Course Name
-           </span>
-           
-           <div class="pull-right">
-           
-           <span class="info-rating">
-               <span class="info-rating-bg">
-               <!-- Bar color -->
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
-               }
-               else {
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
-               }
-
-               ?>
-               </span>
-               <!-- Color for percentage -->
-               <span class="info-rating-labels">
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-label" style="color:  #8DC63F;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-label" style="color: yellow;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else {
-                   echo('<span class="info-rating-label" style="color: red;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-
-               ?>
-
-               <!-- Location for thumb icons -->
-               <span class="info-thumbs">
-                   <i class="thumbs-up far fa-thumbs-up"></i>
-                   <i class="thumbs-down far fa-thumbs-down"></i>
-               </span>
-               </span>
-           </span>
-           
-           <!-- List of comma seperated keywords -->
-           <span class="info-keywords">
-               Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-           </span>
-
-           <?php
-           if ($infocategory == "Tip"){
-               echo('<span class="info-category">
-                   <span class="category tip active" style="background:yellow;">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Walkthrough"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough active" style="background:blue;">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Hardware Specific"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else {
-               echo('<span class="info-category">
-               <span class="category tip">Tip</span>
-               <span class="category walkthrough">Walkthrough</span>
-               <span class="category hardwarespecific">Hardware Specific</span>
-               <span class="category general active" style="background:black;">General</span>        
-               </span>');
-           }
-
-           ?>
-           </div>
-       </li>
-       <!-- SINGLE ITEM END -->
-
-        <!-- SINGLE ITEM START -->
-        <li class="info-item">
-            
-             <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
-            <span class="info-courseName list-only">
-            Course Name
-            </span>
-            
-            <!-- Put Title of Info Snippet -->
-            <span class="info-name">
-            Coding in an Arduino Uno
-            </span>
-            
-            <!-- Put Course Name Here for grid display -->
-            <span class="info-courseName grid-only">
-            Course Name
-            </span>
-            
-            <div class="pull-right">
-            
-            <span class="info-rating">
-                <span class="info-rating-bg">
-                <!-- Bar color -->
-                <?php
-                if ($ratingnumber > 65){
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
-                }
-                else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
-                }
-                else {
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
-                }
-
-                ?>
-                </span>
-                <!-- Color for percentage -->
-                <span class="info-rating-labels">
-                <?php
-                if ($ratingnumber > 65){
-                    echo('<span class="info-rating-label" style="color:  #8DC63F;">
-                    '.$ratingnumber.'%
-                    </span>');
-                }
-                else if ($ratingnumber > 40){
-                    echo('<span class="info-rating-label" style="color: yellow;">
-                    '.$ratingnumber.'%
-                    </span>');
-                }
-                else {
-                    echo('<span class="info-rating-label" style="color: red;">
-                    '.$ratingnumber.'%
-                    </span>');
-                }
-
-                ?>
-
-                <!-- Location for thumb icons -->
-                <span class="info-thumbs">
-                    <i class="thumbs-up far fa-thumbs-up"></i>
-                    <i class="thumbs-down far fa-thumbs-down"></i>
-                </span>
-                </span>
-            </span>
-            
-            <!-- List of comma seperated keywords -->
-            <span class="info-keywords">
-                Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-            </span>
-
-            <?php
-            if ($infocategory == "Tip"){
-                echo('<span class="info-category">
-                    <span class="category tip active" style="background:yellow;">Tip</span>
-                    <span class="category walkthrough">Walkthrough</span>
-                    <span class="category hardwarespecific">Hardware Specific</span>
-                    <span class="category general">General</span>        
-                </span>');
-            }
-            else if ($infocategory == "Walkthrough"){
-                echo('<span class="info-category">
-                    <span class="category tip">Tip</span>
-                    <span class="category walkthrough active" style="background:blue;">Walkthrough</span>
-                    <span class="category hardwarespecific">Hardware Specific</span>
-                    <span class="category general">General</span>        
-                </span>');
-            }
-            else if ($infocategory == "Hardware Specific"){
-                echo('<span class="info-category">
-                    <span class="category tip">Tip</span>
-                    <span class="category walkthrough">Walkthrough</span>
-                    <span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
-                    <span class="category general">General</span>        
-                </span>');
-            }
-            else {
-                echo('<span class="info-category">
-                <span class="category tip">Tip</span>
-                <span class="category walkthrough">Walkthrough</span>
-                <span class="category hardwarespecific">Hardware Specific</span>
-                <span class="category general active" style="background:black;">General</span>        
-                </span>');
-            }
-
-            ?>
-            </div>
-        </li>
-        <!-- SINGLE ITEM END -->
-
-         <!-- SINGLE ITEM START -->
-         <li class="info-item">
-            
-            <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
-           <span class="info-courseName list-only">
-           Course Name
-           </span>
-           
-           <!-- Put Title of Info Snippet -->
-           <span class="info-name">
-           Coding in an Arduino Uno
-           </span>
-           
-           <!-- Put Course Name Here for grid display -->
-           <span class="info-courseName grid-only">
-           Course Name
-           </span>
-           
-           <div class="pull-right">
-           
-           <span class="info-rating">
-               <span class="info-rating-bg">
-               <!-- Bar color -->
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: yellow;"></span>');
-               }
-               else {
-                   echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: red;"></span>');
-               }
-
-               ?>
-               </span>
-               <!-- Color for percentage -->
-               <span class="info-rating-labels">
-               <?php
-               if ($ratingnumber > 65){
-                   echo('<span class="info-rating-label" style="color:  #8DC63F;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else if ($ratingnumber > 40){
-                   echo('<span class="info-rating-label" style="color: yellow;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-               else {
-                   echo('<span class="info-rating-label" style="color: red;">
-                   '.$ratingnumber.'%
-                   </span>');
-               }
-
-               ?>
-
-               <!-- Location for thumb icons -->
-               <span class="info-thumbs">
-                   <i class="thumbs-up far fa-thumbs-up"></i>
-                   <i class="thumbs-down far fa-thumbs-down"></i>
-               </span>
-               </span>
-           </span>
-           
-           <!-- List of comma seperated keywords -->
-           <span class="info-keywords">
-               Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword
-           </span>
-
-           <?php
-           if ($infocategory == "Tip"){
-               echo('<span class="info-category">
-                   <span class="category tip active" style="background:yellow;">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Walkthrough"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough active" style="background:blue;">Walkthrough</span>
-                   <span class="category hardwarespecific">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else if ($infocategory == "Hardware Specific"){
-               echo('<span class="info-category">
-                   <span class="category tip">Tip</span>
-                   <span class="category walkthrough">Walkthrough</span>
-                   <span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
-                   <span class="category general">General</span>        
-               </span>');
-           }
-           else {
-               echo('<span class="info-category">
-               <span class="category tip">Tip</span>
-               <span class="category walkthrough">Walkthrough</span>
-               <span class="category hardwarespecific">Hardware Specific</span>
-               <span class="category general active" style="background:black;">General</span>        
-               </span>');
-           }
-
-           ?>
-           </div>
-       </li>
-       <!-- SINGLE ITEM END -->
+        
 
 
      
