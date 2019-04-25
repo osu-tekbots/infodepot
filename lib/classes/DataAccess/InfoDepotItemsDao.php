@@ -26,7 +26,7 @@ class InfoDepotItemsDao {
      * @param \Util\Logger $logger logger used to log messages and errors
      * @param boolean $echoOnError flag to determine whether to echo error messages to the output buffer
      */
-    public function __construct($connection, $logger = null, $echoOnError = false) {
+    public function __construct($connection, $logger = null, $echoOnError = true) {
         $this->conn = $connection;
         $this->logger = $logger;
         $this->echoOnError = $echoOnError;
@@ -41,7 +41,29 @@ class InfoDepotItemsDao {
      * @return \Model\InfoDepotItem[]|boolean an array of items if successful, false otherwise
      */
     public function getAllInfoDepotItems($offset = 0, $limit = -1) {
-        // TODO: implement this stub
+        try {
+			//fixme: future implementation required: after comments 
+			//and artificats are implemented, add support for them here
+			//and all other select queries.
+			
+			$sql = 'SELECT info_depot_item.*, info_depot_course.* FROM info_depot_item, info_depot_course ';
+            $sql .= 'WHERE idcr_id = idi_idcr_id';
+			//$sql = 'SELECT info_depot_item.*, info_depot_course.*, capstone_keyword.* FROM info_depot_item, info_depot_course, capstone_keyword_for, capstone_keyword ';
+            //$sql .= 'WHERE idcr_id = idi_idcr_id AND idi_id = ckf_entity_id AND ckf_ck_id = ck_id ';
+			//$sql .= 'LIMIT :limit OFFSET :offset';
+			
+			$params = array(':offset' => $offset,
+							':limit' => $limit);
+            $results = $this->conn->query($sql, $params);
+            if (!$results || \count($results) == 0) {
+                return false;
+            }
+
+            return \array_map('self::ExtractInfoDepotItemFromRow', $results);
+        } catch (\Exception $e) {
+            $this->logError('Failed to get all items: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -87,7 +109,33 @@ class InfoDepotItemsDao {
      * @return boolean true if the execution is successful, false otherwise
      */
     public function addNewInfoDepotItem($item) {
-        // TODO: implement this stub
+		try {
+				//4/25/19: tested, working.
+			
+				//idi_id is generated using a secure cryptic ID generator found in 
+				//./shared/classes/Util/IdGenerator.php.
+				$sql = 'INSERT INTO info_depot_item ';
+				$sql .= '(idi_id, idi_u_id, idi_title, idi_details, idi_idcr_id, ';
+				$sql .= 'idi_date_created, idi_date_updated) ';
+				$sql .= 'VALUES (:id,:userid, :title, :details, :courseid, :datec, :dateu)';
+				
+				$params = array(
+					':id' => $item->getId(),
+					':userid' => $item->getUser()->getId(),
+					':title' => $item->getTitle(),
+					':details' => $item->getDetails(),
+					':courseid' => $item->getCourse()->getId(),
+					':datec' => $item->getDateCreated(),
+					':dateu' => $item->getDateUpdated()
+				);
+				$this->conn->execute($sql, $params);
+
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to add new item: ' . $e->getMessage());
+
+				return false;
+        }
     }
 
     /**
