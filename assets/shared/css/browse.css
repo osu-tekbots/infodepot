@@ -1,0 +1,280 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+/* entypo */
+[class*="entypo-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f5f5f5;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+  font-family: 'Lato', sans-serif;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.004);
+  font-size: 100%;
+  font-weight: 400;
+}
+
+.toggler {
+  color: #A1A1A4;
+  font-size: 1.25em;
+  margin-left: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+.toggler.active {
+  color: #000;
+}
+
+.infos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.info-item {
+  display: block;
+  margin-top: 10px;
+  padding: 20px;
+  border-radius: 2px;
+  background: white;
+  box-shadow: 0 2px 1px rgba(170, 170, 170, 0.25);
+}
+
+.info-name {
+  font-weight: 400;
+}
+
+.list .info-item {
+  position: relative;
+  padding: 0;
+  font-size: 14px;
+  line-height: 40px;
+}
+.list .info-item .pull-right {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+@media screen and (max-width: 800px) {
+  .list .info-item .category:not(.active) {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px) {
+  .list .info-item .info-rating-bg {
+    display: none;
+  }
+}
+@media screen and (max-width: 600px) {
+  .list .info-item .pull-right {
+    position: static;
+    line-height: 20px;
+    padding-bottom: 10px;
+  }
+}
+.list .info-courseName,
+.list .info-rating,
+.list .info-thumbs,
+.list .info-keywords {
+  color: #A1A1A4;
+}
+.list .info-courseName,
+.list .info-thumbs,
+.list .info-keywords,
+.list .info-name,
+.list .info-category {
+  margin: 0 10px;
+}
+.list .info-courseName {
+  margin-right: 0;
+}
+.list .info-keywords,
+.list .info-thumbs,
+.list .info-courseName,
+.list .info-name {
+  vertical-align: middle;
+}
+.list .info-keywords {
+  display: inline-block;
+  width: 30%;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+
+.info-category .category {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0 2px;
+  background: #f2f2f2;
+  text-indent: -9999px;
+  color: transparent;
+  line-height: 16px;
+}
+.info-category .category.active {
+  background: #A1A1A4;
+}
+
+.list .list-only {
+  display: auto;
+}
+.list .grid-only {
+  display: none !important;
+}
+
+.grid .grid-only {
+  display: auto;
+}
+.grid .list-only {
+  display: none !important;
+}
+
+.grid .info-item {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  height: 200px;
+  width: 250px;
+  margin: 10px;
+}
+@media screen and (max-width: 600px) {
+  .grid .info-item {
+    display: block;
+    width: auto;
+    height: 150px;
+    margin: 10px auto;
+  }
+}
+.grid .info-name {
+  display: block;
+  max-width: 80%;
+  font-size: 16px;
+  line-height: 20px;
+}
+.grid .info-courseName {
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+.grid .info-courseName,
+.grid .info-keywords {
+  display: block;
+  color: #A1A1A4;
+}
+.grid .info-rating {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  font-size: 13px;
+}
+.grid .info-rating-bg {
+  width: 40%;
+  display: block;
+}
+@media screen and (max-width: 200px) {
+  .grid .info-rating-bg {
+    display: none;
+  }
+}
+.grid .info-rating-labels {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  line-height: 40px;
+}
+@media screen and (max-width: 200px) {
+  .grid .info-rating-labels {
+    right: auto;
+    left: 10px;
+  }
+}
+.grid .info-rating-label {
+  line-height: 21px;
+  font-size: 13px;
+  font-weight: 400;
+}
+.grid .info-thumbs {
+  line-height: 21px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.thumbs-up {
+    color: green;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.thumbs-up:hover{
+    font-weight: 700;
+    text-shadow: 2px 2px 4px black;
+}
+
+.thumbs-down {
+    color: red;
+    font-size: 20px;
+}
+
+.thumbs-down:hover{
+    font-weight: 700;
+    text-shadow: 2px 2px 4px black;
+}
+
+.grid .info-category {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.grid .info-category .category {
+  display: none;
+}
+.grid .info-category .active {
+  display: block;
+}
+.grid .info-keywords {
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.info-rating-label {
+  vertical-align: middle;
+  margin: 0 10px;
+  color: #8DC63F;
+}
+
+.info-rating-bg {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  width: 100px;
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #eee;
+}
+
+.info-rating-fg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  margin: 0;
+  background: #8DC63F;
+}
