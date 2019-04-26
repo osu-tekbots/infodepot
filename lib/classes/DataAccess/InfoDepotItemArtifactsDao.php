@@ -37,7 +37,23 @@ class InfoDepotItemArtifactsDao {
      * @return \Model\InfoDepotItemArtifact[]|boolean an array of artifacts if successful, false otherwise
      */
     public function getInfoDepotArtifactsForItem($itemId) {
-        // TODO: implement this stub
+        try {
+			//4/26/19: implemented, needs testing.
+			
+			$sql = 'SELECT * FROM info_depot_item_artifact ';
+            $sql .= 'WHERE idia_id = :id';
+
+			$params = array(':id' => $itemId);
+            $results = $this->conn->query($sql, $params);
+            if (!$results || \count($results) == 0) {
+                return false;
+            }
+
+            return \array_map('self::ExtractInfoDepotItemArtifactFromRow', $results);
+        } catch (\Exception $e) {
+            $this->logError('Failed to get all items: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -50,7 +66,32 @@ class InfoDepotItemArtifactsDao {
      * @return boolean true of successful, false otherwise
      */
     public function addNewInfoDepotItemArtifact($artifact) {
-        // TODO: implement this stub
+		try {
+				//4/26/19: implemented, needs testing
+			
+				//idia_id is generated using a secure cryptic ID generator found in 
+				//./shared/classes/Util/IdGenerator.php.
+				$sql = 'INSERT INTO info_depot_item_artifact ';
+				$sql .= '(idia_id, idia_idi_id, idia_description, idia_file, ';
+				$sql .= 'idia_mime, idia_link) ';
+				$sql .= 'VALUES (:id, :itemid, :description, :file, :mime, :link)';
+				
+				$params = array(
+					':id' => $artifact->getId(),
+					':itemid' => $artifact->getParentItem()->getId(),
+					':description' => $artifact->getDescription(),
+					':file' => $artifact->getFile(),
+					':mime' => $artifact->getMime(),
+					':link' => $artifact->getLink()
+				);
+				$this->conn->execute($sql, $params);
+
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to add new artifact: ' . $e->getMessage());
+
+				return false;
+        }
     }
 
     /**
@@ -60,7 +101,31 @@ class InfoDepotItemArtifactsDao {
      * @return boolean true if successful, false otherwise
      */
     public function updateInfoDepotItemArtifact($artifact) {
-        // TODO: implement this stub
+		try {
+				//4/26/19: implemented, needs testing
+			
+				$sql = 'UPDATE info_depot_item_artifact SET ';
+				$sql .= 'idia_description = :description, ';
+				$sql .= 'idia_file = :file, ';
+				$sql .= 'idia_mime = :mime, ';
+				$sql .= 'idia_link = :link ';
+				$sql .= 'WHERE idia_id = :id';
+
+				$params = array(
+					':id' => $artifact->getId(),
+					':description' => $artifact->getDescription(),
+					':file' => $artifact->getFile(),
+					':mime' => $artifact->getMime(),
+					':link' => $artifact->getLink()
+				);
+				$this->conn->execute($sql, $params);
+
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to update artifact: ' . $e->getMessage());
+
+				return false;
+        }
     }
 
     /**

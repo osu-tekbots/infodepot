@@ -144,7 +144,6 @@ class InfoDepotItemsDao {
      */
     public function updateInfoDepotItem($item) {
 		try {
-		
 				//Set the date updated time to the current time.
 				$item->setDateUpdated(DataAccess\QueryUtils::FormatDate(new DateTime()));
 		

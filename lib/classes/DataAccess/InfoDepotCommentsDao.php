@@ -49,7 +49,7 @@ class InfoDepotCommentsDao {
                 return false;
             }
 
-            return \array_map('self::ExtractInfoDepotItemFromRow', $results);
+            return \array_map('self::ExtractInfoDepotCommentFromRow', $results);
         } catch (\Exception $e) {
             $this->logError('Failed to get all items: ' . $e->getMessage());
             return false;
@@ -102,11 +102,12 @@ class InfoDepotCommentsDao {
      * @return boolean true if the execution succeeds, false otherwise
      */
     public function updateInfoDepotComment($comment) {
-		try {
+		try {	
+				//Set the date updated time to the current time.
+				$comment->setDateUpdated(DataAccess\QueryUtils::FormatDate(new DateTime()));
+				
 				//4/26/19: implemented, needs testing
 			
-				//idc_id is generated using a secure cryptic ID generator found in 
-				//./shared/classes/Util/IdGenerator.php.
 				$sql = 'UPDATE info_depot_comment SET ';
 				$sql .= 'idc_u_id = :userid, ';
 				$sql .= 'idc_idi_id = :fname, ';
