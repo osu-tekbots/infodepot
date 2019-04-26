@@ -37,7 +37,23 @@ class InfoDepotCommentsDao {
      * @return \Model\InfoDepotComment[]|boolean an array of comments if successful, false otherwise
      */
     public function getInfoDepotCommentsForItem($item) {
-        // TODO: implement this stub
+        try {
+			//4/26/19: implemented, needs testing.
+			
+			$sql = 'SELECT * FROM info_depot_comment ';
+            $sql .= 'WHERE idc_idi_id = :id';
+
+			$params = array(':id' => $item->getId());
+            $results = $this->conn->query($sql, $params);
+            if (!$results || \count($results) == 0) {
+                return false;
+            }
+
+            return \array_map('self::ExtractInfoDepotItemFromRow', $results);
+        } catch (\Exception $e) {
+            $this->logError('Failed to get all items: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -50,7 +66,33 @@ class InfoDepotCommentsDao {
      * @return boolean true if the execution succeeds, false otherwise
      */
     public function addNewInfoDepotComment($comment) {
-        // TODO: implement this stub
+		try {
+				//4/26/19: implemented, needs testing
+			
+				//idc_id is generated using a secure cryptic ID generator found in 
+				//./shared/classes/Util/IdGenerator.php.
+				$sql = 'INSERT INTO info_depot_comment ';
+				$sql .= '(idc_id, idc_u_id, idc_idi_id, idc_content, ';
+				$sql .= 'idc_recommended, idc_date_created, idc_date_updated) ';
+				$sql .= 'VALUES (:id, :userid, :itemid, :content, :rec, :datec, :dateu)';
+				
+				$params = array(
+					':id' => $comment->getId(),
+					':userid' => $comment->getUser()->getId(),
+					':itemid' => $comment->getDepotItem()->getId(),
+					':content' => $comment->getContent(),
+					':recommended' => $comment->getRecommended(),
+					':datec' => $comment->getDateCreated(),
+					':dateu' => $comment->getDateUpdated()
+				);
+				$this->conn->execute($sql, $params);
+
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to add new comment: ' . $e->getMessage());
+
+				return false;
+        }
     }
 
     /**
@@ -60,7 +102,34 @@ class InfoDepotCommentsDao {
      * @return boolean true if the execution succeeds, false otherwise
      */
     public function updateInfoDepotComment($comment) {
-        // TODO: implement this stub
+		try {
+				//4/26/19: implemented, needs testing
+			
+				//idc_id is generated using a secure cryptic ID generator found in 
+				//./shared/classes/Util/IdGenerator.php.
+				$sql = 'UPDATE info_depot_comment SET ';
+				$sql .= 'idc_u_id = :userid, ';
+				$sql .= 'idc_idi_id = :fname, ';
+				$sql .= 'idc_content = :lname, ';
+				$sql .= 'idc_recommended = :salu, ';
+				$sql .= 'idc_date_updated = :email ';
+				$sql .= 'WHERE idc_id = :id';
+
+				$params = array(
+					':id' => $comment->getId(),
+					':userid' => $comment->getUser()->getId(),
+					':content' => $comment->getContent(),
+					':recommended' => $comment->getRecommended(),
+					':dateu' => $comment->getDateUpdated()
+				);
+				$this->conn->execute($sql, $params);
+
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to update comment: ' . $e->getMessage());
+
+				return false;
+        }
     }
 
     /**

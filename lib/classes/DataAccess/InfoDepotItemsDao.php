@@ -48,8 +48,6 @@ class InfoDepotItemsDao {
 			
 			$sql = 'SELECT info_depot_item.*, info_depot_course.* FROM info_depot_item, info_depot_course ';
             $sql .= 'WHERE idcr_id = idi_idcr_id';
-			//$sql = 'SELECT info_depot_item.*, info_depot_course.*, capstone_keyword.* FROM info_depot_item, info_depot_course, capstone_keyword_for, capstone_keyword ';
-            //$sql .= 'WHERE idcr_id = idi_idcr_id AND idi_id = ckf_entity_id AND ckf_ck_id = ck_id ';
 			//$sql .= 'LIMIT :limit OFFSET :offset';
 			
 			$params = array(':offset' => $offset,
@@ -145,31 +143,69 @@ class InfoDepotItemsDao {
      * @return boolean true if the execution succeeds, false otherwise
      */
     public function updateInfoDepotItem($item) {
+		try {
+		
+				//Set the date updated time to the current time.
+				$item->setDateUpdated(DataAccess\QueryUtils::FormatDate(new DateTime()));
+		
+				//4/26/19: implemented, needs testing.
+				$sql = 'UPDATE user SET ';
+				$sql .= 'idi_u_id = :userid, ';
+				$sql .= 'idi_title = :title, ';
+				$sql .= 'idi_details = :details, ';
+				$sql .= 'idi_idcr_id = :courseid, ';
+				$sql .= 'idi_date_updated = :dateu ';
+				$sql .= 'WHERE idi_id = :id';
 
+				$params = array(
+					':id' => $item->getId(),
+					':userid' => $item->getUser()->getId(),
+					':title' => $item->getTitle(),
+					':details' => $item->getDetails(),
+					':courseid' => $item->getCourse()->getId(),
+					':datec' => $item->getDateCreated(),
+					':dateu' => $item->getDateUpdated()
+				);
+				$this->conn->execute($sql, $params);
+
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to update item: ' . $e->getMessage());
+
+				return false;
+        }
     }
 
     /**
-     * Records that an IndoDepotItem was voted as helpful by adding a new entry to the appropriate join table in
+     * Records that an IndoDepotItem was voted as the passed in value by adding a new entry to the appropriate join table in
      * the database.
      *
+	 * @param [FIXME] $value the value of the vote casted.
      * @param string $userId the ID of the user who voted
      * @param string $itemId the ID of the item that was voted as helpful
      * @return boolean true if the execution succeeds, false otherwise
      */
-    public function recordInfoDepotItemAsHelpful($userId, $itemId) {
-        // TODO: implement this stub
-    }
+    public function recordInfoDepotItemAsValue($value, $userId, $itemId) {
+		try {
+				//4/26/19: implemented, needs testing.
+			
+				$sql = 'INSERT INTO info_depot_rating ';
+				$sql .= '(idr_u_id, idr_idi_id, idr_value) ';
+				$sql .= 'VALUES (:userid, :itemid, :value)';
+				
+				$params = array(
+					':userid' => $userId, 
+					':itemid' => $itemId,
+					':value' => $value
+				);
+				$this->conn->execute($sql, $params);
 
-    /**
-     * Records that an IndoDepotItem was voted as not helpful by adding a new entry to the appropriate join table in
-     * the database.
-     *
-     * @param string $userId the ID of the user who voted
-     * @param string $itemId the ID of the item that was voted as unhelpful
-     * @return boolean true if the execution succeeds, false otherwise
-     */
-    public function recordInfoDepotItemAsUnhelpful($userId, $itemId) {
-        // TODO: implement this stub
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to record new value: ' . $e->getMessage());
+
+				return false;
+        }
     }
 
     /**
@@ -178,7 +214,21 @@ class InfoDepotItemsDao {
      * @return \Model\InfoDepotCourse[]|boolean an array of courses if successful, false otherwise
      */
     public function getAllInfoDepotCourses() {
-        // TODO: implement this stub
+		try {
+			//4/26/19: Implemented, needs testing.
+			
+			$sql = 'SELECT info_depot_course.* FROM info_depot_course';
+
+            $results = $this->conn->query($sql);
+            if (!$results || \count($results) == 0) {
+                return false;
+            }
+
+            return \array_map('self::ExtractInfoDepotItemFromRow', $results);
+        } catch (\Exception $e) {
+            $this->logError('Failed to get all courses: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**
