@@ -2,18 +2,6 @@
 
 $dao = new DataAccess\InfoDepotItemsDao($dbConn);
 
-function updateInfoDepotItem($item){
-	global $dao;
-	
-	if($dao->updateInfoDepotItem($item)){
-		return true;
-	}
-	
-	return false;
-}
-
-
-
 function createNewInfoDepotItem($title, $details, $userid){
 	global $dao; 
 	
@@ -48,25 +36,6 @@ function createNewInfoDepotItem($title, $details, $userid){
 	return false;
 }
 
-function renderInfoDepotItems(){
-	global $dao; 
-	
-	$items = $dao->getAllInfoDepotItems();
-
-	foreach($items as $item){
-		echo '<div class="card">';
-			echo 'Title: ' . $item->getTitle();
-			echo '<br>';
-			echo 'Details: ' . $item->getDetails();
-			echo '<br>';
-			echo 'Last Updated: ' . $item->getDateUpdated()->format('M d Y');
-			echo '<br>';
-			echo 'Course: ' . $item->getCourse()->getCode();
-			echo ''; 
-		echo '</div>';
-		echo '<br>';
-	}
-}
 ?>
 
 
@@ -85,7 +54,7 @@ function renderInfoDepotItems(){
     <!-- FontAwesome CSS --> 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
-    <title>Browse Items</title>
+    <title>Edit Items</title>
   </head>
   <body>
         <!-- NAV BAR -->
@@ -119,9 +88,6 @@ function renderInfoDepotItems(){
 			</div>
 			
 			<div class="col-sm-4">
-				<div class="card-grid">
-				<?php renderInfoDepotItems(); ?> 
-				</div>
 			</div>
 		</div>
 
@@ -133,14 +99,6 @@ function renderInfoDepotItems(){
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
   <script type="text/javascript">
-	$("#titleInput").change(function(){
-	  //alert("The title has been changed.");
-	});
-	$("#detailsInput").change(function(){
-	  //alert("The details have been changed.");
-	});
-	
-	
 	/**
 	 * Serializes the form and returns a JSON object with the keys being the values of the `name` attribute.
 	 * @returns {object}
@@ -170,8 +128,6 @@ function renderInfoDepotItems(){
 			//return snackbar('Please provide an item title', 'error');
 		}
 		
-		
-
 		body.action = 'saveItem';
 		
 		alert(body.action);
