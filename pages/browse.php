@@ -17,10 +17,16 @@
   </head>
   <body>
         <!-- NAV BAR -->
+        <?php
+        include_once PUBLIC_FILES . '/modules/header.php';
+        ?>
+    <!--
         <nav class="navbar fixed-top navbar-light bg-light">
             <a class="navbar-brand" href="#">InfoDepot</a>
         </nav>
+-->
         <br><br><br>
+
       
         <!-- Togglers for List / Grid View -->
         <span class="toggler active" data-toggle="grid"><span class="entypo-layout"></span></span>
@@ -42,7 +48,7 @@
         $author = "Billy Bob Jeremy";
         
 
-        function makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $numberUpvoted, $numberDownvoted, $infocategory){
+        function makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory){
 
             // Get rating number from number of upvotes and downvotes - 1 decimal place
             $ratingnumber = 50;
@@ -72,6 +78,10 @@
             Last Updated: '.$lastUpdated.'
             </span>');
 
+            echo('<span class="info-keywords">
+            Author: '.$author.'
+            </span>');
+
             
             echo('<div class="pull-right">
 
@@ -97,15 +107,16 @@
             //    <!-- Location for thumb icons -->
             echo('
                 <span class="info-thumbs">
+                <a href="#" data-toggle="tooltip" data-placement="bottom" title="You can only rate an info item inside the page">
                     <i class="thumbs-up far fa-thumbs-up"></i>
                     <i class="thumbs-down far fa-thumbs-down"></i>
+                </a>
                 </span>
+            
             </span>
-                <span class="number-voted">
-                '.$numberUpvoted.' '.$numberDownvoted.'
-                </span>
                 
             </span>');
+            
             
             if ($infocategory == "Tip"){
                 echo('<span class="info-category">
@@ -150,7 +161,7 @@
         <!-- SINGLE ITEM END -->
 
         <?php
-            makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $numberUpvoted, $numberDownvoted, $infocategory);
+            makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory);
         ?>
 
 
@@ -179,6 +190,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
   <script type="text/javascript">
+
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip(); 
+    });
+
+
     (function () {
   $(function () {
     return $('[data-toggle]').on('click', function () {
