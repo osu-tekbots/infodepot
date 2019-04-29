@@ -1,7 +1,95 @@
 <?php
+use DataAccess\InfoDepotItemsDao;
+use Model\InfoDepotCourse;
 
-$dao = new DataAccess\InfoDepotItemsDao($dbConn);
+if (!session_id()) {
+    session_start();
+}
 
+// Make sure the user is logged in and allowed to be on this page
+include PUBLIC_FILES . '/lib/shared/authorize.php';
+
+$isAdmin = $_SESSION['accessLevel'] == 'Admin';
+
+//fixme: use for edit item
+//$pId = $_GET['id'];
+//$authorizedToProceed = $pId . '' != '' && $_SESSION['userID'] . '' != '';
+//allowIf($authorizedToProceed, 'pages/index.php');
+
+$dao = new InfoDepotItemsDao($dbConn, $logger);
+
+//fixme: use for edit
+/*
+// Get the project and store properly formatted values into local variables
+$project = $dao->getCapstoneProject($pId);
+
+if ($project) {
+    $pTitle = $project->getTitle();
+    $pMotivation = $project->getMotivation();
+    $pDescription = $project->getDescription();
+    $pObjectives = $project->getObjectives();
+    $pDateStart = $project->getDateStart() != null ? $project->getDateStart()->format('m/d/Y') : '';
+    $pDateEnd = $project->getDateEnd() != null ? $project->getDateEnd()->format('m/d/Y') : '';
+    $pMinQual = $project->getMinQualifications();
+    $pPreferredQual = $project->getPreferredQualifications();
+    $pCompensationId = $project->getCompensation()->getId();
+    $pAdditionalEmails = $project->getAdditionalEmails();
+    $pCategoryId = $project->getCategory()->getId();
+    $pCategoryName = $project->getCategory()->getName();
+    $pTypeId = $project->getType()->getId();
+    $pFocusId = $project->getFocus()->getId();
+    $pCopId = $project->getCop()->getId();
+    $pNdaIpId = $project->getNdaIp()->getId();
+    $pWebsiteLink = $project->getWebsiteLink();
+    $pImages = $project->getImages();
+    $pVideoLink = $project->getVideoLink();
+    $pIsHidden = $project->getIsHidden();
+    $pComments = $project->getProposerComments();
+    $pStatusId = $project->getStatus()->getId();
+    $pStatusName = $project->getStatus()->getName();
+}
+*/
+
+//fixme: use for edit
+// If the user is not the creator of the project or an admin, redirect them to the home page (unauthorized)
+//$authorizedToProceed = $project->getProposer()->getId() == $_SESSION['userID'] || $isAdmin;
+
+
+// Get all the various enumerations from the database
+$courses = $dao->getAllInfoDepotCourses();
+
+//fixme: maybe need this 
+//allowIf($authorizedToProceed, 'pages/index.php');
+
+//include_once PUBLIC_FILES . '/modules/admin-review.php';
+
+$title = 'Create Item';
+
+//fixme: use for contingent js
+/*
+$js = array(
+    array(
+        'defer' => 'true',
+        'src' => 'assets/js/edit-project.js'
+    ),
+    array(
+        'defer' => 'true',
+        'src' => 'assets/js/admin-review.js'
+    ),
+    array(
+        'defer' => 'true',
+        'src' => 'assets/js/upload-image.js'
+    )
+);
+*/
+
+include_once PUBLIC_FILES . '/modules/header.php';
+
+// Set Tooltip Texts
+$tooltipProjectTitleInput = '';
+
+
+//fixme: remove in future releases, use this for testing
 function createNewInfoDepotItem($title, $details, $userid){
 	global $dao; 
 	
@@ -41,28 +129,7 @@ function createNewInfoDepotItem($title, $details, $userid){
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/shared/css/browse.css">
-    <link rel="stylesheet" href="../assets/shared/css/navbarandbody.css">
-
-    <!-- FontAwesome CSS --> 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
-    <title>Edit Items</title>
-  </head>
   <body>
-        <!-- NAV BAR -->
-        <nav class="navbar fixed-top navbar-light bg-light">
-            <a class="navbar-brand" href="#">InfoDepot</a>
-        </nav>
-        <br><br><br>
-		
 		<div class="container-fluid">
 			<div class="col-sm-4">
 				<!-- code for creating a new item below. -->
@@ -94,10 +161,12 @@ function createNewInfoDepotItem($title, $details, $userid){
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<!--
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+	-->	
+ </body>
   <script type="text/javascript">
 	/**
 	 * Serializes the form and returns a JSON object with the keys being the values of the `name` attribute.
@@ -130,16 +199,18 @@ function createNewInfoDepotItem($title, $details, $userid){
 		
 		body.action = 'saveItem';
 		
-		alert(body.action);
-		/*
+		snackbar(body.action, 'success');
+		
 		api.post('/items.php', body)
 			.then(res => {
+				alert("success");
 				snackbar(res.message, 'success');
 			})
 			.catch(err => {
+				alert("error");
 				snackbar(err.message, 'error');
 			});
-		*/
+		
 	}
 	
 	$('#saveItemDraftBtn').on('click', onSaveItemDraftClick);

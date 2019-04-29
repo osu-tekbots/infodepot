@@ -100,13 +100,13 @@ function renderInfoDepotItems(){
 				<form id="formItem">
 					<div class="form-group">
 						<label for="titleInput">Title:</label>
-						<input class="form-control" id="titleInput" placeholder="Enter title here...">
+						<input class="form-control" id="titleInput" name="title" placeholder="Enter title here...">
 					</div>
 					<div class="form-group">
 						<label for="detailsInput">Details:</label>
-						<textarea class="form-control" id="detailsInput" placeholder="Enter details here..." rows="3"></textarea>
+						<textarea class="form-control" id="detailsInput" name="details" placeholder="Enter details here..." rows="3"></textarea>
 					</div>
-					<select class="form-control" id="courseSelect">
+					<select class="form-control" id="courseSelect" name="course">
 					  <option>CS161 - Introduction to Computer Science</option>
 					</select>
 					<br>
@@ -170,12 +170,10 @@ function renderInfoDepotItems(){
 			//return snackbar('Please provide an item title', 'error');
 		}
 		
-		
-
 		body.action = 'saveItem';
 		
 		alert(body.action);
-		/*
+		
 		api.post('/items.php', body)
 			.then(res => {
 				snackbar(res.message, 'success');
@@ -183,7 +181,7 @@ function renderInfoDepotItems(){
 			.catch(err => {
 				snackbar(err.message, 'error');
 			});
-		*/
+		
 	}
 	
 	$('#saveItemDraftBtn').on('click', onSaveItemDraftClick);

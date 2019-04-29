@@ -85,7 +85,7 @@ function renderInfoDepotItems(){
     <!-- FontAwesome CSS --> 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
-    <title>Testy Test</title>
+    <title>Browse Items</title>
   </head>
   <body>
         <!-- NAV BAR -->
@@ -100,13 +100,13 @@ function renderInfoDepotItems(){
 				<form id="formItem">
 					<div class="form-group">
 						<label for="titleInput">Title:</label>
-						<input class="form-control" id="titleInput" placeholder="Enter title here...">
+						<input class="form-control" id="titleInput" name="title" placeholder="Enter title here...">
 					</div>
 					<div class="form-group">
 						<label for="detailsInput">Details:</label>
-						<textarea class="form-control" id="detailsInput" placeholder="Enter details here..." rows="3"></textarea>
+						<textarea class="form-control" id="detailsInput" name="details" placeholder="Enter details here..." rows="3"></textarea>
 					</div>
-					<select class="form-control" id="courseSelect">
+					<select class="form-control" id="courseSelect" name="course">
 					  <option>CS161 - Introduction to Computer Science</option>
 					</select>
 					<br>
@@ -170,20 +170,20 @@ function renderInfoDepotItems(){
 			//return snackbar('Please provide an item title', 'error');
 		}
 		
-		
-
 		body.action = 'saveItem';
 		
-		alert(body.action);
-		/*
+		snackbar(body.action, 'success');
+		
 		api.post('/items.php', body)
 			.then(res => {
+				alert("success");
 				snackbar(res.message, 'success');
 			})
 			.catch(err => {
+				alert("error");
 				snackbar(err.message, 'error');
 			});
-		*/
+		
 	}
 	
 	$('#saveItemDraftBtn').on('click', onSaveItemDraftClick);
