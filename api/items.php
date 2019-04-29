@@ -3,6 +3,7 @@
  * This page handles client requests to modify or fetch item-related data. All requests made to this page should
  * be a POST request with a corresponding `action` field in the request body.
  */
+
 use DataAccess\UsersDao;
 use Api\Response;
 use DataAccess\InfoDepotItemsDao;
@@ -11,15 +12,19 @@ use Email\ItemsMailer;
 
 session_start();
 
+$logger = new Util\Logger($configManager->getLogFilePath(), $configManager->getLogLevel());
+
 // Setup our data access and handler classes
 $itemsDao = new InfoDepotItemsDao($dbConn, $logger);
 $usersDao = new UsersDao($dbConn, $logger);
-$mailer = new ItemsMailer($configManager->getEmailFromAddress(), $configManager->getEmailSubjectTag());
-$handler = new ItemsActionHandler($itemsDao, $usersDao, $mailer, $configManager, $logger);
-
+//$mailer = new ItemsMailer($configManager->getEmailFromAddress(), $configManager->getEmailSubjectTag());
+$handler = new ItemsActionHandler($itemsDao, $usersDao, $configManager, $logger);
 
 //fixme: once userid is setup, use the authorization
 $handler->handleRequest();
+
+echo '{"test" : "test1"}';
+
 
 /*
 // Authorize the request

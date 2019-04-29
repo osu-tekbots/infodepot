@@ -2,7 +2,9 @@
 namespace Api;
 
 use Model\InfoDepotItem;
-use Model\InfodepotCourse;
+use Model\InfoDepotCourse;
+use Model\User;
+use DataAccess\QueryUtils;
 
 /**
  * Defines the logic for how to handle AJAX requests made to modify project information.
@@ -18,7 +20,7 @@ class ItemsActionHandler extends ActionHandler {
     /** @var \Util\ConfigManager */
     private $config;
     /** @var \Util\Logger */
-    private $logger;
+    //private $logger;
 
     /**
      * Constructs a new instance of the action handler for requests on project resources.
@@ -29,14 +31,25 @@ class ItemsActionHandler extends ActionHandler {
      * @param \Util\ConfigManager $config the configuration manager providing access to site config
      * @param \Util\Logger $logger the logger to use for logging information about actions
      */
+	 
+	/*
     public function __construct($itemsDao, $usersDao, $mailer, $config, $logger) {
         parent::__construct($logger);
         $this->itemsDao = $itemsDao;
         $this->usersDao = $usersDao;
         $this->mailer = $mailer;
         $this->config = $config;
-        $this->logger = $logger;
     }
+	*/
+
+	//this constructor is without the mailer
+	public function __construct($itemsDao, $usersDao, $config, $logger) {
+        parent::__construct($logger);
+        $this->itemsDao = $itemsDao;
+        $this->usersDao = $usersDao;
+        $this->config = $config;
+    }
+
 
     /**
      * Creates a new capstone project entry in the database.
@@ -52,15 +65,32 @@ class ItemsActionHandler extends ActionHandler {
 		
 		$body = $this->requestBody;
 		
-		//$user = $this->usersDao->getUser($body['uid']);
-		
 		
 		$item = new InfoDepotItem();
 		//fixme check this below
 		$item->setTitle($body['title']);
 		$item->setDetails($body['details']);
-		$item->setCourse($body['course']);
-		//$item->setProposer($user);
+		
+		$newcourse = new InfoDepotCourse($body['course'], 'NAME', 'CODE');
+		$item->setCourse($newcourse);
+		
+		//fixme: 4/29/19 the FormatDate() function isn't working.
+		//error is: <b>Fatal error</b>:  Call to undefined function Api\FormatDate()
+		//im just going to modify the code so that it's compatible as-is.
+		//$item->setDateCreated(FormatDate(new \DateTime()));
+		//$item->setDateUpdated(FormatDate(new \DateTime()));
+		$item->setDateCreated((new \DateTime())->format('Y-m-d H:i:s'));
+		$item->setDateUpdated((new \DateTime())->format('Y-m-d H:i:s'));
+		
+		
+		//fixme: hardcoded for development work, this is my user id.
+		//this should be removed in future releases.
+		//$user = $this->usersDao->getUser($body['uid']);
+		$userid = 'NvTykUuoi7DlzDzH';
+		$newuser = new User();
+		$newuser->setId($userid);
+		
+		$item->setUser($newuser);
 		
 		$ok = $this->itemsDao->addNewInfoDepotItem($item);
 
@@ -309,42 +339,18 @@ class ItemsActionHandler extends ActionHandler {
      */
     public function handleRequest() {
         // Make sure the action parameter exists
-        $action = $this->getFromBody('action');
-
+        //$action = $this->getFromBody('action');
+		$action = 'createItem';
         // Call the correct handler based on the action
         switch ($action) {
-
             case 'createItem':
                 $this->handleCreateItem();
-
 			/*
             case 'updateCategory':
                 $this->handleUpdateProjectCategory();
 			*/
-				
             case 'saveItem':
                 $this->handleSaveItem();
-				
-			/*
-            case 'submitForApproval':
-                $this->handleSubmitForApproval();
-
-            case 'defaultImageSelected':
-                $this->handleDefaultImageSelected();
-
-            case 'approveProject':
-                $this->handleApproveProject();
-
-            case 'rejectProject':
-                $this->handleRejectProject();
-
-            case 'publishProject':
-                $this->handlePublishProject();
-
-            case 'unpublishProject':
-                $this->handleUnpublishProject();
-			*/
-
             default:
                 $this->respond(new Response(Response::BAD_REQUEST, 'Invalid action on item resource'));
         }

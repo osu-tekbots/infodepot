@@ -143,10 +143,10 @@ function createNewInfoDepotItem($title, $details, $userid){
 						<textarea class="form-control" id="detailsInput" placeholder="Enter details here..." rows="3"></textarea>
 					</div>
 					<select class="form-control" id="courseSelect">
-					  <option>CS161 - Introduction to Computer Science</option>
+					  <option value="1">CS161 - Introduction to Computer Science</option>
 					</select>
 					<br>
-					<button type="button" id="saveItemDraftBtn" class="btn btn-outline-secondary">Submit</button>
+					<button type="button" id="createItemBtn" class="btn btn-outline-secondary">Submit</button>
 					<br><br>
 				</form>
 				<!-- end of code for creating a new item. -->
@@ -158,14 +158,6 @@ function createNewInfoDepotItem($title, $details, $userid){
 			</div>
 		</div>
 
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<!--
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	-->	
  </body>
   <script type="text/javascript">
 	/**
@@ -177,11 +169,15 @@ function createNewInfoDepotItem($title, $details, $userid){
 		let data = new FormData(form);
 
 		let json = {
-			title: $('#titleInput').val()
+			title: $('#titleInput').val(),
+			details: $('#detailsInput').val(),
+			course: $('#courseSelect').val()
 		};
 		for (const [key, value] of data.entries()) {
 			json[key] = value;
 		}
+		
+		//alert(JSON.stringify(json));
 
 		return json;
 	}
@@ -190,17 +186,19 @@ function createNewInfoDepotItem($title, $details, $userid){
 	 * Handler for a user click on the 'Save Project Draft' button. It will use AJAX to save the project in the
 	 * database. The project title must not be empty.
 	 */
-	function onSaveItemDraftClick() {
+	function onCreateItemClick() {
+		//fixme: confirmed, is working json
 		let body = getItemFormDataAsJson();
 
 		if (body.title == '') {
-			//return snackbar('Please provide an item title', 'error');
+			return snackbar('Please provide an item title', 'error');
+		}
+		if (body.details == '') {
+			return snackbar('Please provide details', 'error');
 		}
 		
-		body.action = 'saveItem';
-		
-		snackbar(body.action, 'success');
-		
+		body.action = 'createItem';
+
 		api.post('/items.php', body)
 			.then(res => {
 				alert("success");
@@ -213,6 +211,6 @@ function createNewInfoDepotItem($title, $details, $userid){
 		
 	}
 	
-	$('#saveItemDraftBtn').on('click', onSaveItemDraftClick);
+	$('#createItemBtn').on('click', onCreateItemClick);
   </script>
 </html>
