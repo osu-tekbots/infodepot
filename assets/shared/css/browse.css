@@ -46,7 +46,7 @@ body {
   box-shadow: 0 2px 1px rgba(170, 170, 170, 0.25);
 }
 
-.info-name {
+.info-title {
   font-weight: 400;
 }
 
@@ -87,7 +87,7 @@ body {
 .list .info-courseName,
 .list .info-thumbs,
 .list .info-keywords,
-.list .info-name,
+.list .info-title,
 .list .info-category {
   margin: 0 10px;
 }
@@ -97,7 +97,7 @@ body {
 .list .info-keywords,
 .list .info-thumbs,
 .list .info-courseName,
-.list .info-name {
+.list .info-title {
   vertical-align: middle;
 }
 .list .info-keywords {
@@ -156,7 +156,7 @@ body {
     margin: 10px auto;
   }
 }
-.grid .info-name {
+.grid .info-title {
   display: block;
   max-width: 80%;
   font-size: 16px;
@@ -254,8 +254,15 @@ body {
 
 .info-rating-label {
   vertical-align: middle;
-  margin: 0 10px;
+  margin: 0 20px;
   color: #8DC63F;
+}
+
+.number-voted {
+    float: right;
+    padding-top: 10px;
+    word-spacing: 17px;
+    padding-right: 2px;
 }
 
 .info-rating-bg {
@@ -266,7 +273,7 @@ body {
   height: 4px;
   border-radius: 2px;
   overflow: hidden;
-  background: #eee;
+  background: red;
 }
 
 .info-rating-fg {
