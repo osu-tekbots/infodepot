@@ -31,6 +31,8 @@ $js = array_merge(
         'assets/js/moment.min.js',
         'assets/js/tempusdominus-bootstrap-4.min.js',
         'assets/js/jquery-ui.js',
+		'assets/js/angular.js',
+		'assets/js/editbutton.js',
         'assets/js/platform.js',
         'assets/js/slick.min.js',
         'assets/js/jquery.canvasjs.min.js',
@@ -59,8 +61,10 @@ $css = array_merge(
         'assets/css/slick-theme.css',
         'assets/css/jquery-ui.css',
         'assets/css/image-picker.css',
+		'assets/css/editbutton.css',
         'assets/css/capstone.css',
         'assets/shared/css/snackbar.css',
+		'assets/shared/css/browse.css',
         array(
             'media' => 'screen and (max-width: 768px)', 
             'href' => 'assets/css/capstoneMobile.css'
@@ -137,7 +141,6 @@ if ($loggedIn) {
             echo $link;
         }
     } ?>
-
 </head>
 <body>
     <header>

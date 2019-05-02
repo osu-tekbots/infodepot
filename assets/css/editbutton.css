@@ -1,0 +1,31 @@
+.templateRoot{
+    display: inline-block;
+}
+.hover-edit-trigger {
+    padding: 3px;
+}
+.hover-edit-trigger:hover{
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+}
+.edit-pencil{
+    display: none;
+    margin-left: 3px;
+    padding: 3px;
+    border-left: 1px solid #dcdcdc;
+}
+.hover-text-field:hover .edit-pencil{
+    display: inline-block;
+}
+.edit-button-group{
+    border: 1px solid #dcdcdc;
+    border-top: none;
+    border-radius: 4px;
+    padding: 0px 3px 0px 3px;
+}
+.edit-button-group .glyphicon{
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    margin: 1px;
+    cursor: pointer;
+}

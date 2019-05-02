@@ -24,7 +24,7 @@
         <nav class="navbar fixed-top navbar-light bg-light">
             <a class="navbar-brand" href="#">InfoDepot</a>
         </nav>
--->
+	-->
         <br><br><br>
 
       
@@ -163,20 +163,6 @@
         <?php
             makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory);
         ?>
-
-
-
-
-
-
-      
-        
-
-        
-
-
-     
-       
 
        <!-- PLACE ALL ITEMS WITHIN ul info-class grid -->
         </ul>  

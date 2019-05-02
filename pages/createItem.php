@@ -18,43 +18,6 @@ $isAdmin = $_SESSION['accessLevel'] == 'Admin';
 
 $dao = new InfoDepotItemsDao($dbConn, $logger);
 
-//fixme: use for edit
-/*
-// Get the project and store properly formatted values into local variables
-$project = $dao->getCapstoneProject($pId);
-
-if ($project) {
-    $pTitle = $project->getTitle();
-    $pMotivation = $project->getMotivation();
-    $pDescription = $project->getDescription();
-    $pObjectives = $project->getObjectives();
-    $pDateStart = $project->getDateStart() != null ? $project->getDateStart()->format('m/d/Y') : '';
-    $pDateEnd = $project->getDateEnd() != null ? $project->getDateEnd()->format('m/d/Y') : '';
-    $pMinQual = $project->getMinQualifications();
-    $pPreferredQual = $project->getPreferredQualifications();
-    $pCompensationId = $project->getCompensation()->getId();
-    $pAdditionalEmails = $project->getAdditionalEmails();
-    $pCategoryId = $project->getCategory()->getId();
-    $pCategoryName = $project->getCategory()->getName();
-    $pTypeId = $project->getType()->getId();
-    $pFocusId = $project->getFocus()->getId();
-    $pCopId = $project->getCop()->getId();
-    $pNdaIpId = $project->getNdaIp()->getId();
-    $pWebsiteLink = $project->getWebsiteLink();
-    $pImages = $project->getImages();
-    $pVideoLink = $project->getVideoLink();
-    $pIsHidden = $project->getIsHidden();
-    $pComments = $project->getProposerComments();
-    $pStatusId = $project->getStatus()->getId();
-    $pStatusName = $project->getStatus()->getName();
-}
-*/
-
-//fixme: use for edit
-// If the user is not the creator of the project or an admin, redirect them to the home page (unauthorized)
-//$authorizedToProceed = $project->getProposer()->getId() == $_SESSION['userID'] || $isAdmin;
-
-
 // Get all the various enumerations from the database
 $courses = $dao->getAllInfoDepotCourses();
 
@@ -64,24 +27,6 @@ $courses = $dao->getAllInfoDepotCourses();
 //include_once PUBLIC_FILES . '/modules/admin-review.php';
 
 $title = 'Create Item';
-
-//fixme: use for contingent js
-/*
-$js = array(
-    array(
-        'defer' => 'true',
-        'src' => 'assets/js/edit-project.js'
-    ),
-    array(
-        'defer' => 'true',
-        'src' => 'assets/js/admin-review.js'
-    ),
-    array(
-        'defer' => 'true',
-        'src' => 'assets/js/upload-image.js'
-    )
-);
-*/
 
 include_once PUBLIC_FILES . '/modules/header.php';
 
@@ -124,6 +69,25 @@ function createNewInfoDepotItem($title, $details, $userid){
 	return false;
 }
 
+
+/*
+ * FIXME: put code below into a separate create-item.js file. 
+ * 
+ *
+ */
+function generateCourses(){
+	global $dao; 
+	
+	$courses = $dao->getAllInfoDepotCourses();
+
+	foreach($courses as $course){
+		echo '<option value="' . $course->getId() . '">';
+		echo $course->getCode() . ': ' . $course->getName();
+		echo '</option>';
+	}
+	
+}
+
 ?>
 
 
@@ -143,15 +107,189 @@ function createNewInfoDepotItem($title, $details, $userid){
 						<textarea class="form-control" id="detailsInput" placeholder="Enter details here..." rows="3"></textarea>
 					</div>
 					<select class="form-control" id="courseSelect">
-					  <option value="1">CS161 - Introduction to Computer Science</option>
+					  <?php generateCourses(); ?>
 					</select>
 					<br>
+					<div class="form-group">
+						<div class="ui-widget">
+							<label for="keywordsInput">
+								Add Up To 5 Keywords to Project: <font size="2" style="color:red;">*required</font><br>
+								<font size="2">Press Enter after each keyword.</font>
+							</label>
+							<input id="keywordsInput" name="keywords" class="form-control">
+						</div>
+						<br>
+						<div id="keywordsDiv">
+							<?php
+							// TODO: implement keywords here
+							//Keywords has a buffer character that will cause an additional blank key to be added
+							//for projects without any keywords. FUTURE IMPLEMENTATION: Fix this bug. 2/28/19.
+							//if (sizeof($keywords) > 1) {
+							//	foreach ($keywords as $key) {
+							//		if ($key != ' ') {
+							//			echo '<span class="badge badge-light keywordBadge">' . $key . ' <i class="fas fa-times-circle"></i></span>';
+							//		}
+							//	}
+							//}
+							?>
+						</div>
+					</div>
+					<br>
+					Create Artifacts:
+					<br>
+					<div class="infos grid">
+						<div class="info-item">
+							<span class="info-title">
+							Artifact Name
+							</span>
+							<span class="info-keywords">
+							Artifact Details
+							</span>
+							<span class="info-title">
+							Link
+							</span>
+						</div>
+					</div>
+					
 					<button type="button" id="createItemBtn" class="btn btn-outline-secondary">Submit</button>
 					<br><br>
 				</form>
 				<!-- end of code for creating a new item. -->
 			</div>
 			<div class="col-sm-8">
+				 <ul class="infos grid">
+
+						<!-- SINGLE ITEM START -->
+					<?php
+
+						$infoCourse = "Course Name";
+						$infoTitle= "Info Title";
+						$keywords = "Keyword, Keyword, Keyword";
+						$ratingnumber = 74;
+						$infocategory = "Hardware Specific";
+						$lastUpdated = "04/25/19";
+						$numberUpvoted = 15;
+						$numberDownvoted = 15;
+						$author = "Billy Bob Jeremy";
+						
+						function makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory){
+
+							// Get rating number from number of upvotes and downvotes - 1 decimal place
+							$ratingnumber = 50;
+
+						echo('<li class="info-item">');
+							
+							// <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
+							echo('<span class="info-courseName list-only">
+							'.$infoCourse.'
+							</span>');
+							
+							// <!-- Put Title of Info Snippet -->
+							echo('<span class="info-title">
+							'.$infoTitle.'
+							</span>');
+							
+							// <!-- Put Course Name Here for grid display -->
+							echo('<span class="info-courseName grid-only">
+							'.$infoCourse.' 
+							</span>');
+
+							echo('<span class="info-keywords">
+							'.$keywords.'
+							</span>');
+
+							echo('<span class="info-keywords">
+							Last Updated: '.$lastUpdated.'
+							</span>');
+
+							echo('<span class="info-keywords">
+							Author: '.$author.'
+							</span>');
+
+							
+							echo('<div class="pull-right">
+
+							
+							<span class="info-rating">
+								<span class="info-rating-bg">
+								');
+							 //   <!-- Bar color (|CHANGE WIDTH BY STYLING | BACKGROUND COLOR RED)--> 
+							   
+									echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>
+
+							
+								</span>');
+							//  <!-- Color for percentage (NEUTRAL % OF RATING UP)-->
+								echo('<span class="info-rating-labels">
+								
+								  <span class="info-rating-label" style="color: #A1A1A4;">
+									'.$ratingnumber.'% 
+								</span>');
+								
+							
+
+							//    <!-- Location for thumb icons -->
+							echo('
+								<span class="info-thumbs">
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="You can only rate an info item inside the page">
+									<i class="thumbs-up far fa-thumbs-up"></i>
+									<i class="thumbs-down far fa-thumbs-down"></i>
+								</a>
+								</span>
+							
+							</span>
+								
+							</span>');
+							
+							
+							if ($infocategory == "Tip"){
+								echo('<span class="info-category">
+									<span class="category tip active" style="background:#ffc83f;">Tip</span>
+									<span class="category walkthrough">Walkthrough</span>
+									<span class="category hardwarespecific">Hardware Specific</span>
+									<span class="category general">General</span>        
+								</span>');
+							}
+							else if ($infocategory == "Walkthrough"){
+								echo('<span class="info-category">
+									<span class="category tip">Tip</span>
+									<span class="category walkthrough active" style="background:blue;">Walkthrough</span>
+									<span class="category hardwarespecific">Hardware Specific</span>
+									<span class="category general">General</span>        
+								</span>');
+							}
+							else if ($infocategory == "Hardware Specific"){
+								echo('<span class="info-category">
+									<span class="category tip">Tip</span>
+									<span class="category walkthrough">Walkthrough</span>
+									<span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
+									<span class="category general">General</span>        
+								</span>');
+							}
+							else {
+								echo('<span class="info-category">
+								<span class="category tip">Tip</span>
+								<span class="category walkthrough">Walkthrough</span>
+								<span class="category hardwarespecific">Hardware Specific</span>
+								<span class="category general active" style="background:black;">General</span>        
+								</span>');
+							}
+
+						echo('
+							</div>
+						</li>
+						');
+
+					}
+						?>
+						<!-- SINGLE ITEM END -->
+
+						<?php
+							makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory);
+						?>
+
+					   <!-- PLACE ALL ITEMS WITHIN ul info-class grid -->
+						</ul>  
 			</div>
 			
 			<div class="col-sm-4">
@@ -160,6 +298,21 @@ function createNewInfoDepotItem($title, $details, $userid){
 
  </body>
   <script type="text/javascript">
+  
+	$('#keywordsInput').on('change', function() {
+		key = $('#keywordsInput').val();
+		//Add user-generated keyword into the keywordsDiv.
+		$('#keywordsDiv').append(
+			'<span class="badge badge-light keywordBadge">' + key + ' <i class="fas fa-times-circle"></i></span>'
+		);
+		$('#keywordsInput').val('');
+	});
+
+	//Remove keywords when clicked.
+	$('body').on('click', '.keywordBadge', function(e) {
+		this.remove();
+	});
+
 	/**
 	 * Serializes the form and returns a JSON object with the keys being the values of the `name` attribute.
 	 * @returns {object}

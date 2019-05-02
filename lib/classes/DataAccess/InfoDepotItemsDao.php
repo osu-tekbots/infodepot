@@ -216,14 +216,14 @@ class InfoDepotItemsDao {
 		try {
 			//4/26/19: Implemented, needs testing.
 			
-			$sql = 'SELECT info_depot_course.* FROM info_depot_course';
+			$sql = 'SELECT info_depot_course.* FROM info_depot_course ORDER BY idcr_code';
 
             $results = $this->conn->query($sql);
             if (!$results || \count($results) == 0) {
                 return false;
             }
 
-            return \array_map('self::ExtractInfoDepotItemFromRow', $results);
+            return \array_map('self::ExtractInfoDepotCourseFromRow', $results);
         } catch (\Exception $e) {
             $this->logError('Failed to get all courses: ' . $e->getMessage());
             return false;
