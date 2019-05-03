@@ -33,43 +33,6 @@ include_once PUBLIC_FILES . '/modules/header.php';
 // Set Tooltip Texts
 $tooltipProjectTitleInput = '';
 
-
-//fixme: remove in future releases, use this for testing
-function createNewInfoDepotItem($title, $details, $userid){
-	global $dao; 
-	
-	$newitem = new Model\InfoDepotItem();
-	$newitem->setTitle($title);
-	$newitem->setDetails($details);
-	$newitem->setDateCreated(DataAccess\QueryUtils::FormatDate(new DateTime()));
-	$newitem->setDateUpdated(DataAccess\QueryUtils::FormatDate(new DateTime()));
-
-	//fixme: hardcoded for development work, this is my user id.
-	//this should be removed in future releases.
-	$userid = 'NvTykUuoi7DlzDzH';
-	
-	$newuser = new Model\User();
-	$newuser->setId($userid);
-	
-	//fixme: once the user login credentials are working, we need to only 
-	//pass in the User object of the user signed in. From there, just assign 
-	//that user object as the user property of $newitem.
-	$newitem->setUser($newuser);
-
-	//fimxe: get all the course stuff handled appropriately, should eventually 
-	//just need to pass in the object that was chosen by the user. From there, 
-	//you set the course of newitem.
-	$newcourse = new Model\InfoDepotCourse('1', 'Intro to Computer Science', 'CS161');
-	$newitem->setCourse($newcourse);
-
-	if($dao->addNewInfoDepotItem($newitem)){
-		return true;
-	}
-	
-	return false;
-}
-
-
 /*
  * FIXME: put code below into a separate create-item.js file. 
  * 
