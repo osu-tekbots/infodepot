@@ -9,7 +9,7 @@ if (!session_id()) {
 // Make sure the user is logged in and allowed to be on this page
 include PUBLIC_FILES . '/lib/shared/authorize.php';
 
-$isAdmin = $_SESSION['accessLevel'] == 'Admin';
+//$isAdmin = $_SESSION['accessLevel'] == 'Admin';
 
 //fixme: use for edit item
 //$pId = $_GET['id'];

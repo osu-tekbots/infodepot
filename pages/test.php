@@ -43,7 +43,7 @@ function createNewInfoDepotItem($title, $details, $userid){
 
 	if($dao->addNewInfoDepotItem($newitem)){
 		return true;
-	}
+}
 	
 	return false;
 }

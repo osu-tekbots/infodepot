@@ -1,0 +1,92 @@
+/*
+CSS Styling for header content
+Info Depot
+Oregon State University
+*/
+header {
+    position: fixed;
+    z-index: 1000;
+    width: 100vw;
+    transition: padding 500ms ease, background-color 500ms ease, color 500ms ease;
+    display: flex;
+    align-items: center;
+    padding: 10px 30px;
+}
+
+header.dark {
+    background-color: #338DFF;
+    color: var(--color-white);
+}
+
+header.light {
+    background-color: black;
+    color: #DAA520;
+    box-shadow: 0px 0px 5px var(--color-black);
+}
+
+.header-main-link {
+    color: inherit;
+}
+
+.header-main-link:hover {
+    color: inherit;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo h1 {
+    margin: 0px 0px 0px 24px;
+    color: inherit;
+    font-family: Ostrich-Sans;
+    letter-spacing: 0.2em;
+}
+
+#projectPrefix {
+    display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    #projectPrefix {
+        display: inline;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    .logo img {
+        width: 70px !important;
+        height: 70px !important;
+    }
+}
+
+.logo img {
+    border-radius: 50% ;
+    width: 40px;
+    height: 40px;
+}
+
+.navigation {
+    margin-left: auto;
+}
+
+.navigation ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+.navigation a {
+    color: inherit;
+}
+.navigation a:hover {
+    text-decoration: none;
+}
+
+.navigation li {
+    margin: 0px 5px;
+    padding: 10px;
+}
