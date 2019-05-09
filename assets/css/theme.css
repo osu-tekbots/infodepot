@@ -1,0 +1,23 @@
+/*
+Sitewide CSS Theme for Styling
+Project Showcase
+Oregon State University
+*/
+:root {
+    --color-black: #000000;
+    --color-grey: #6c757d;
+    --color-light-grey: #eeeeee;
+    --color-white: #ffffff;
+    --color-primary: #dc4405;
+}
+
+@font-face {
+    font-family: 'Ostrich-Sans';
+    src: url('../fonts/ostrich-sans/ostrich-sans-rounded.eot');
+    src: url('../fonts/ostrich-sans/ostrich-sans-rounded.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ostrich-sans/ostrich-sans-rounded.woff') format('woff'),
+         url('../fonts/ostrich-sans/ostrich-sans-rounded.ttf') format('truetype'),
+         url('../fonts/ostrich-sans/ostrich-sans-rounded.svg#OstrichSansRoundedMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

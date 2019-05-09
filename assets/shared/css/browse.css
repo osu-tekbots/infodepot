@@ -34,16 +34,18 @@ body {
 .infos {
   list-style: none;
   margin: 0;
-  padding-left: 25px;
+  padding-left: 8%;
+  width: 100%;
+
 } 
 
 .info-item {
   display: block;
   margin-top: 10px;
   padding: 20px;
-  border-radius: 2px;
+  border-radius: 4px;
   background: white;
-  box-shadow: 1px 2px 1px rgba(170, 170, 170, 0.25);
+  box-shadow: 2px 2px 2px rgba(170, 170, 170, 0.25);
 }
 
 .info-item:hover {
@@ -82,23 +84,39 @@ body {
     padding-bottom: 10px;
   }
 }
-.list .info-courseName,
+
 .list .info-rating,
 .list .info-thumbs,
-.list .info-keywords {
+.list .info-lastupdated
+{
   color: #A1A1A4;
 }
+.list .info-author{
+  color: #338DFF;
+}
+
+.list .info-courseName{
+  color:#DAA520;
+}
+.list .info-keywords{
+  color:#212529;
+}
+
 .list .info-courseName,
 .list .info-thumbs,
 .list .info-keywords,
+.list .info-lastupdated,
+.list .info-author,
 .list .info-title,
 .list .info-category {
-  margin: 0 10px;
+  margin: 0 5px;
 }
 .list .info-courseName {
   margin-right: 0;
 }
 .list .info-keywords,
+.list .info-lastupdated,
+.list .info-author,
 .list .info-thumbs,
 .list .info-courseName,
 .list .info-title {
@@ -106,7 +124,6 @@ body {
 }
 .list .info-keywords {
   display: inline-block;
-  width: 30%;
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;
@@ -171,11 +188,27 @@ body {
   line-height: 16px;
   text-transform: uppercase;
 }
-.grid .info-courseName,
+
 .grid .info-keywords {
+  display: block;
+  color: #212529;
+}
+
+.grid .info-lastupdated {
   display: block;
   color: #A1A1A4;
 }
+
+.grid .info-author {
+  display: block;
+  color: #338DFF;
+}
+
+.grid .info-courseName {
+  display: block;
+  color: #DAA520;
+}
+
 .grid .info-rating {
   display: block;
   position: absolute;
@@ -188,7 +221,7 @@ body {
   font-size: 13px;
 }
 .grid .info-rating-bg {
-  width: 40%;
+  width: 60%;
   display: block;
 }
 @media screen and (max-width: 200px) {
@@ -242,10 +275,13 @@ body {
 .grid .info-category .active {
   display: block;
 }
+.grid .info-author, .grid .info-lastupdated,
 .grid .info-keywords {
   font-size: 12px;
   line-height: 20px;
 }
+
+
 
 .info-rating-label {
   vertical-align: middle;
@@ -325,4 +361,102 @@ body {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.info-category:hover{
+  color: blue;
+}
+
+.filterOptions{
+  display:inline-block;
+  align-content: center;
+  width: 100%;
+}
+
+input[type="radio"].toggle {
+  display: none;
+  background-image: -moz-linear-gradient(bottom,blue,#727272);
+}
+
+input[type="radio"].toggle:checked + label {
+  background-image: linear-gradient(to top,#DAA520, #DAA520);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff969696',endColorstr='#ff727272',GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  -webkit-box-shadow: inset 0 1px 6px rgba(41, 41, 41, 0.2),0 1px 2px rgba(0,0,0,0.05);
+  -moz-box-shadow: inset 0 1px 6px 0 rgba(41, 41, 41, 0.2),0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: inset 0 1px 6px rgba(41, 41, 41, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: default;
+  color: black;
+  border-color: transparent;
+  text-shadow: 0 1px 1px rgba(40, 40, 40, 0.75);
+}
+
+input[type="radio"].toggle + label {
+  width: 6em;
+}
+
+input[type="radio"].toggle:checked + label.btn:hover {
+  background-color: inherit;
+  background-position: 0 0;
+  -webkit-transition: none;
+  -moz-trainsition: none;
+  transition: none;
+}
+
+input[type="radio"].toggle-left + label {
+  border-right: 0;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -moz-border-top-right-radius: 0;
+  -moz-border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+input[type="radio"].toggle-right + label {
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -moz-border-top-left-radius: 0;
+  -moz-border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn {
+  background-color: #338DFF!important;
+}
+
+.btn:hover{
+  background-color: #DAA520!important;
+}
+
+.sortingButtonsList {
+  float: right;
+  display: inline-block;
+}
+
+.sortingButton{
+  display: inline-block;
+  padding: 10px;
+}
+
+#filterInput {
+  width: 300px;
+  display: inline-block;
+  margin: 20px;
+}
+
+.form-group {
+  display: inline-block;
+  width: 120px;
+  margin: 20px;
+}
+.filterOptions {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+.label {
+  align: center;
 }

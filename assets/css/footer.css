@@ -1,0 +1,21 @@
+/*
+CSS Styling for footer content
+Info Depot
+Oregon State University
+*/
+footer {
+    flex-shrink: 0;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    font-size: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 5px;
+}
+
+footer .disclaimer {
+    color: var(--color-white);
+    text-decoration: underline;
+    margin-right: 10px;
+}
