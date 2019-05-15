@@ -24,6 +24,10 @@ header.light {
     box-shadow: 0px 0px 5px var(--color-black);
 }
 
+header.light li:hover{
+    color: white;
+}
+
 .header-main-link {
     color: inherit;
 }
@@ -89,4 +93,8 @@ header.light {
 .navigation li {
     margin: 0px 5px;
     padding: 10px;
+}
+
+.navigation li:hover{
+    color: #DAA520;
 }
