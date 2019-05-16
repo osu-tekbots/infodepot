@@ -1,5 +1,6 @@
 <?php
 use DataAccess\InfoDepotItemsDao;
+use DataAccess\KeywordsDao;
 use Model\InfoDepotCourse;
 
 if (!session_id()) {
@@ -17,6 +18,7 @@ include PUBLIC_FILES . '/lib/shared/authorize.php';
 //allowIf($authorizedToProceed, 'pages/index.php');
 
 $dao = new InfoDepotItemsDao($dbConn, $logger);
+$keywordsDao = new KeywordsDao($dbConn, $logger);
 
 // Get all the various enumerations from the database
 $courses = $dao->getAllInfoDepotCourses();
@@ -90,6 +92,37 @@ function generateCourses(){
 
 ?>
 
+<script type="text/javascript">
+$('#keywordsInput').on('change', function() {
+    key = $('#keywordsInput').val();
+    //Add user-generated keyword into the keywordsDiv.
+    $('#keywordsDiv').append(
+        '<span class="badge badge-light keywordBadge">' + key + ' <i class="fas fa-times-circle"></i></span>'
+    );
+    $('#keywordsInput').val('');
+});
+
+//Remove keywords when clicked.
+$('body').on('click', '.keywordBadge', function(e) {
+    this.remove();
+});
+
+$('#keywordsInput').autocomplete({
+    source: availableTags
+});
+
+</script>
+
+<script type="text/javascript">
+var availableTags = [
+<?php
+	$availableKeywords = $keywordsDao->getAllKeywords();
+	foreach ($availableKeywords as $k) {
+		echo '"' . $k->getName() . '",';
+	}
+?>
+];
+</script>
 
 <!doctype html>
 <html lang="en">
@@ -99,13 +132,14 @@ function generateCourses(){
 				<!-- code for creating a new item below. -->
 				<form id="formItem">
 					<div class="form-group">
-						<label for="titleInput">Title:</label>
+						<label for="titleInput">Title: <font size="2" style="color:red;">*required</font><br></label>
 						<input class="form-control" id="titleInput" placeholder="Enter title here...">
 					</div>
 					<div class="form-group">
-						<label for="detailsInput">Details:</label>
+						<label for="detailsInput">Details: <font size="2" style="color:red;">*required</font><br></label>
 						<textarea class="form-control" id="detailsInput" placeholder="Enter details here..." rows="3"></textarea>
 					</div>
+					<label for="courseSelect">Relevant Course: </label>
 					<select class="form-control" id="courseSelect">
 					  <?php generateCourses(); ?>
 					</select>
@@ -120,18 +154,6 @@ function generateCourses(){
 						</div>
 						<br>
 						<div id="keywordsDiv">
-							<?php
-							// TODO: implement keywords here
-							//Keywords has a buffer character that will cause an additional blank key to be added
-							//for projects without any keywords. FUTURE IMPLEMENTATION: Fix this bug. 2/28/19.
-							//if (sizeof($keywords) > 1) {
-							//	foreach ($keywords as $key) {
-							//		if ($key != ' ') {
-							//			echo '<span class="badge badge-light keywordBadge">' . $key . ' <i class="fas fa-times-circle"></i></span>';
-							//		}
-							//	}
-							//}
-							?>
 						</div>
 					</div>
 					<br>
