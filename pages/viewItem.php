@@ -59,12 +59,14 @@ $infoCourse = $item->getCourse()->getCode();
 
 
 
+
 ?>
 
 
 <!doctype html>
 <html lang="en">
   <body>
+		<form id="formItem">
 		
 		<!-- START SINGLE INFO VIEW -->
 		<?php
@@ -137,10 +139,10 @@ $infoCourse = $item->getCourse()->getCode();
 
 	    <div class="row">
 	      <div class="col-md-8 mb-5">
-	        <h2><?php echo("$infoTitle"); ?></h2>
+	        <h2 id="titleHeader"><?php echo("$infoTitle"); ?></h2>
 	        <hr>
 	        <p class="infoText"><?php echo("$infoDetails"); ?></p>
-					<h2>Attached files if there are</h2>
+					<h2>Artifacts</h2>
 					 <hr>
 					 <!-- Place for loop to generate files here with attachedFile(file);-->
 				 	<?php attachedFile("scrub.php"); ?>
@@ -164,10 +166,12 @@ $infoCourse = $item->getCourse()->getCode();
 						<!-- INCLUDE ALL COMMENTS WITHIN COMMENTS /SECTION BELOW-->
 					</section>​
 
-					<form id="enquiry" action="">
-						<textarea maxlength="140" name="message" id="message" placeholder="Add your comment!"></textarea>
-						<input type="submit" value="Add Comment">
-					</form>
+					<div id="commentBox">
+						<textarea maxlength="140" name="commentText" id="commentMessage" placeholder="Add your comment!"></textarea>
+						<input type="button" value="Add Comment" onclick="commentSubmit()">
+					</div>
+
+				
 
 <!-- COMMENT SECTION END -->
 
@@ -186,11 +190,7 @@ $infoCourse = $item->getCourse()->getCode();
 	        </address>
 					<address>
 						<strong>Keywords:</strong>
-						<p>		<?php
-						$string=implode(",", $keywords);
-						$string = trim($string,",");
-						$string = rtrim($string,", ");
-						echo($string);
+						<p>		Keywords<?php
 								?>
 						</p>
 					</address>
@@ -202,7 +202,7 @@ $infoCourse = $item->getCourse()->getCode();
 						<strong>Last Updated:</strong>
 	          <p><?php echo("$lastUpdated"); ?></p>
 					</address>
-					<address style="position:fixed;">
+					<address>
 						<h6><strong>Did you find this info item helpful?</strong></h6>
 						<button class="ratingBtn" id="helpfulBtn">Helpful</button><button class="ratingBtn" id="unhelpfulBtn">Not Helpful</button>
 					</address>
@@ -213,9 +213,33 @@ $infoCourse = $item->getCourse()->getCode();
 
 
 	 
-
+			</form>
  </body>
 	<script type="text/javascript">
+
+	function commentSubmit() {
+		let body = getItemFormDataAsJson();
+
+		if (body.title == '') {
+			return snackbar('Please provide an item title', 'error');
+		}
+		if (body.details == '') {
+			return snackbar('Please provide details', 'error');
+		}
+		
+		body.action = 'createItem';
+		
+		api.post('/items.php', body)
+			.then(res => {
+				alert("success");
+				snackbar(res.message, 'success');
+			})
+			.catch(err => {
+				alert("error");
+				snackbar(err.message, 'error');
+			});	
+	}
+
 	
 	 //START UPVOTE DOWNVOTE
 
@@ -253,6 +277,27 @@ function checkScore(numberTag) {
     score.style.color = "#666666";
   }
 }
+
+
+	/**
+	 * Serializes the form and returns a JSON object with the keys being the values of the `name` attribute.
+	 * @returns {object}
+	 */
+	function getItemFormDataAsJson() {
+		let form = document.getElementById('formItem');
+		let data = new FormData(form);
+
+		let json = {
+			title: $('#titleHeader').val()
+		};
+		for (const [key, value] of data.entries()) {
+			json[key] = value;
+		}
+		
+		//alert(JSON.stringify(json));
+
+		return json;
+	}
 
 
 
@@ -328,19 +373,19 @@ function checkScore(numberTag) {
 
 	// For Comment Box
 	$(document).ready(function () {
-    var comment = $('form#enquiry textarea'),
+    var comment = $('div#commentBox textarea'),
         counter = '',
         counterValue = 140, //change this to set the max character count
         minCommentLength = 10, //set minimum comment length
         $commentValue = comment.val(),
         $commentLength = $commentValue.length,
-        submitButton = $('form#enquiry input[type=submit]').hide();
+        submitButton = $('div#commentBox input[type=button]').hide();
   
-    $('form').prepend('<span class="counter"></span>').append('<p class="info">Min length: <span></span></p>');
+    $('div#commentBox').prepend('<span class="counter"></span>').append('<p class="info">Min length: <span></span></p>');
     counter = $('span.counter');
     counter.html(counterValue); //display your set max length
     comment.attr('maxlength', counterValue); //apply max length to textarea
-    $('form').find('p.info > span').html(minCommentLength);
+    $('div#commentBox').find('p.info > span').html(minCommentLength);
     // everytime a key is pressed inside the textarea, update counter
     comment.keyup(function () {
       var $this = $(this);

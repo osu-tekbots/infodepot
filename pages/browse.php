@@ -155,17 +155,27 @@
                     //echo 'Details: ' . $item->getDetails();
                     $lastUpdated = $item->getDateUpdated()->format('M d Y');
                     $infoCourse = $item->getCourse()->getCode();
-                makeInfoItem($infoId, $itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory);
+                    $helpfulCount = $item->getHelpfulCount();
+                    $unhelpfulCount = $item->getUnhelpfulCount();
+                makeInfoItem($infoId, $itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $helpfulCount, $unhelpfulCount, $infocategory);
                 $itemCount = $itemCount + 1;
             }
         }
 
         
         
-        function makeInfoItem($infoId, $itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory){
+        function makeInfoItem($infoId, $itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $helpfulCount, $unhelpfulCount, $infocategory){
             
-            // Get rating number from number of upvotes and downvotes - 1 decimal place
-            $ratingnumber = mt_rand(0, 100);
+            $totalCount = $unhelpfulCount + $helpfulCount;
+            if ($totalCount == 0)
+            {
+                $ratingNumber = 50;
+            }
+            else {
+            $ratingNumber = ($helpfulCount / $totalCount) * 100;
+            }
+            
+            //$ratingNumber = mt_rand(0, 100);
             echo('
             <li class="info-item" id="item'.$itemCount.'">
             <a href="/pages/viewItem.php?id='.$infoId.'">
@@ -199,10 +209,10 @@
             Last Updated: '.$lastUpdated.'
             </span>');
 
-            $sortRatingNumber = $ratingnumber;
+            $sortRatingNumber = $ratingNumber;
             if (strlen($sortRatingNumber) == 1){
                 $sortRatingNumber = '0'.$sortRatingNumber;
-                $ratingnumber = "&nbsp;&nbsp;".$ratingnumber;
+                $ratingNumber = "&nbsp;&nbsp;".$ratingNumber;
             }
             echo('<span style="display:none">Rating Number: '.$sortRatingNumber.'</span>
             
@@ -222,15 +232,15 @@
                
                     echo('
                     
-                    <span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>
+                    <span class="info-rating-fg" style="width: '.$ratingNumber.'%; background-color: #8DC63F;"></span>
                 </span>
                 </a>');
             //  <!-- Color for percentage (NEUTRAL % OF RATING UP)-->
                 echo('<span class="info-rating-labels">
                 
                   <span class="info-rating-label-'.$itemCount.'" style="color: #A1A1A4;">
-                  <a data-toggle="tooltip" data-placement="bottom" title="'.$ratingnumber.'% of users found this item helpful">
-                    '.$ratingnumber.'% 
+                  <a data-toggle="tooltip" data-placement="bottom" title="'.$ratingNumber.'% of users found this item helpful">
+                    '.$ratingNumber.'% 
                   </a>
                 </span>');
                 

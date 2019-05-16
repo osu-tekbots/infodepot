@@ -53,6 +53,8 @@ body {
 
 .info-title {
   font-weight: 400;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .list .info-item {
@@ -177,11 +179,25 @@ body {
   }
 }
 .grid .info-title {
+  height: 40px;
   display: block;
   max-width: 80%;
   font-size: 16px;
   line-height: 20px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
+
+.list .info-title {
+  display:inline-block;
+  width: 800px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+}
+
 .grid .info-courseName {
   font-size: 11px;
   line-height: 16px;
@@ -416,7 +432,6 @@ input[type="radio"].toggle-right + label {
 }
 
 .sortingButtonsList {
-  float: right;
   display: inline-block;
 }
 
@@ -442,9 +457,6 @@ input[type="radio"].toggle-right + label {
   width: 100%;
 }
 
-.label {
-  align: center;
-}
 
 /* Single Info Item View CSS */
 .infoText {
@@ -564,7 +576,6 @@ section {
 
 .editCommentBtn {
   float: right;
-  display: inline-block;
 }
 /* Decoration */
 
@@ -610,10 +621,9 @@ section {
   border-style: solid;
   border-color: #e5e5e5;
   background: #fff;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Safari */
+  transform: rotate(45deg); /* Standard syntax */
 }
 
 .thumbs-up{
@@ -650,8 +660,7 @@ section {
 }
 
 .upArrow {
-  x: 0px;
-  y: 0px;
+
   enable-background: new 0 0 11.5 6.4;
   max-height: 20px;
   max-width: 20px;
@@ -664,8 +673,7 @@ section {
 }
 
 .downArrow {
-  x: 0px;
-  y: 0px;
+
   enable-background: new 0 0 11.5 6.4;
   max-height: 20px;
   max-width: 20px;
@@ -695,7 +703,7 @@ section {
 
 /* CREATE OWN COMMENT CSS */
 
-form {
+#commentBox {
   position: relative;
   top: 40px;
   border-radius: 4px;
@@ -704,7 +712,7 @@ form {
   margin: 0 auto;
  }
  
- form textarea {
+#commentBox textarea {
   border-radius: 2px;
   box-shadow:  0px 2px 11px 0px rgba(0, 0, 0, 0.3);
   border: 1px solid #e2e6e6;
@@ -715,20 +723,20 @@ form {
   height: 100px;
  }
  
- form span.counter {
+#commentBox span.counter {
   float: right;
   color: #000000a8;
  }
  
- form p.info {
+#commentBox p.info {
   font-size: 11px;
   color: #000000a8;
  }
- form p.info > span {
+#commentBox p.info > span {
   color: #000000a8; 
  }
  
- form input[type=submit] {
+#commentBox input[type=button] {
   cursor: pointer;
   box-shadow:  0px 2px 11px 0px rgba(0, 0, 0, 0.3);
   border-radius: 2px;
@@ -738,7 +746,7 @@ form {
   padding: 10px;
  }
 
- form input[type=submit]:hover {
+ #commentBox input[type=button]:hover {
   background-color: #DAA520;
  }
  ​
