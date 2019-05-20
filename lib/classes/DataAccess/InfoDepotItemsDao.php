@@ -97,7 +97,26 @@ class InfoDepotItemsDao {
      * @return \Model\InfoDepotItem|boolean the associated info depot item if successful, false otherwise
      */
     public function getInfoDepotItem($id) {
-        // TODO: implement this stub
+        try {
+			//fixme: future implementation required: after comments 
+			//and artificats are implemented, add support for them here
+			//and all other select queries.
+			
+			$sql = 'SELECT info_depot_item.*, info_depot_course.* FROM info_depot_item, info_depot_course ';
+            $sql .= 'WHERE idi_id = :id';
+			//$sql .= 'LIMIT :limit OFFSET :offset';
+			
+			$params = array(':id' => $id);
+            $results = $this->conn->query($sql, $params);
+            if (!$results || \count($results) == 0) {
+                return false;
+            }
+
+            return (self::ExtractInfoDepotItemFromRow($results[0], true));
+        } catch (\Exception $e) {
+            $this->logError('Failed to get all items: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**

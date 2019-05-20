@@ -42,7 +42,7 @@ $css = array_merge(
         'assets/css/capstone.css',
 		'assets/css/infodepot.css',
         'assets/shared/css/snackbar.css',
-		'assets/shared/css/browse.css',
+		'assets/css/browse.css',
         array(
             'href' => 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
             'integrity' => 'sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf',
@@ -100,7 +100,6 @@ $js = array_merge(
         'assets/js/image-picker.min.js'
     ), $js
 );
-
 
 $loggedIn = isset($_SESSION['userID']) && !empty($_SESSION['userID']);
 

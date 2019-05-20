@@ -50,6 +50,15 @@ function generateCourses(){
 	}
 	
 }
+$pID = $_GET['id'];
+$item = $dao->getInfoDepotItem($pID);
+$infoTitle = $item->getTitle();
+$infoDetails = $item->getDetails();
+$lastUpdated = $item->getDateUpdated()->format('M d Y');
+$infoCourse = $item->getCourse()->getCode();
+
+
+
 
 ?>
 
@@ -57,209 +66,242 @@ function generateCourses(){
 <!doctype html>
 <html lang="en">
   <body>
-		<div class="container-fluid">
-			<div class="col-sm-4">
-				<!-- code for creating a new item below. -->
-				<form id="formItem">
-					<div class="form-group">
-						<label for="titleInput">Title:</label>
-						<input class="form-control" id="titleInput" placeholder="Enter title here...">
+		<form id="formItem">
+		
+		<!-- START SINGLE INFO VIEW -->
+		<?php
+
+				function attachedFile($fileName){
+					$pdf = "pdf";
+					$image = "image";
+					$attachment = $pdf;
+					echo('
+					<a href="">
+					<div class=fileAttachment>
+					filename text <span class="fileIcon">'.strtoupper($attachment).'&nbsp;&nbsp;<i class="fas fa-file-'.$attachment.'"></i></span>
 					</div>
-					<div class="form-group">
-						<label for="detailsInput">Details:</label>
-						<textarea class="form-control" id="detailsInput" placeholder="Enter details here..." rows="3"></textarea>
-					</div>
-					<select class="form-control" id="courseSelect">
-					  <?php generateCourses(); ?>
-					</select>
-					<br>
-					<div class="form-group">
-						<div class="ui-widget">
-							<label for="keywordsInput">
-								Add Up To 5 Keywords to Project: <font size="2" style="color:red;">*required</font><br>
-								<font size="2">Press Enter after each keyword.</font>
-							</label>
-							<input id="keywordsInput" name="keywords" class="form-control">
-						</div>
-						<br>
-						<div id="keywordsDiv">
-							<?php
-							// TODO: implement keywords here
-							//Keywords has a buffer character that will cause an additional blank key to be added
-							//for projects without any keywords. FUTURE IMPLEMENTATION: Fix this bug. 2/28/19.
-							//if (sizeof($keywords) > 1) {
-							//	foreach ($keywords as $key) {
-							//		if ($key != ' ') {
-							//			echo '<span class="badge badge-light keywordBadge">' . $key . ' <i class="fas fa-times-circle"></i></span>';
-							//		}
-							//	}
-							//}
-							?>
-						</div>
-					</div>
-					<br>
-					Create Artifacts:
-					<br>
-					<div class="infos grid">
-						<div class="info-item">
-							<span class="info-keywords">Description</span>
-							<span class="info-title">
-								<input id="artifactNameInput" name="artifactname" class="form-control" placeholder="Artifact Name"></input>
-							</span>
-							<span class="info-keywords">Link</span>
-							<span class="info-title">
-								<input id="artifactLinkInput" name="artifactlink" class="form-control" placeholder="Artifact Link"></input>
-							</span>
-							<!-- fixme: talk about architecture for artifacts later. -->
-					</div>
+					</a>
+					');
+				}
 
-					<button type="button" id="createItemBtn" class="btn btn-outline-secondary">Submit</button>
-					<br><br>
-				</form>
-				<!-- end of code for creating a new item. -->
-			</div>
-			<div class="col-sm-8">
-				 <ul class="infos grid">
+				// Generation of a single element
+				$commentScore = mt_rand(0, 100);
+				$commentAuthor = "Billy Hill Bobby";
+				$commentDate = "12:04 PM, 13 May 2018";
+				$commentText = "This is a comment and text within the comment";
+				$commentCount = 0;
+				$lastUpdatedDate = "12:34 PM, 13 May 2018";
 
-						<!-- SINGLE ITEM START -->
-					<?php
 
-						$infoCourse = "Course Name";
-						$infoTitle= "Info Title";
-						$keywords = "Keyword, Keyword, Keyword";
-						$ratingnumber = 74;
-						$infocategory = "Hardware Specific";
-						$lastUpdated = "04/25/19";
-						$numberUpvoted = 15;
-						$numberDownvoted = 15;
-						$author = "Billy Bob Jeremy";
-						
-						function makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory){
+				function generateComment($commentScore, $commentAuthor, $commentDate, $commentText, $commentCount, $lastUpdatedDate){
+					// REMOVE 
+					$commentScore = mt_rand(-50, 50);
+					//
+					echo('
 
-							// Get rating number from number of upvotes and downvotes - 1 decimal place
-							$ratingnumber = 50;
-
-						echo('<li class="info-item">');
-							
-							// <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
-							echo('<span class="info-courseName list-only">
-							'.$infoCourse.'
-							</span>');
-							
-							// <!-- Put Title of Info Snippet -->
-							echo('<span class="info-title">
-							'.$infoTitle.'
-							</span>');
-							
-							// <!-- Put Course Name Here for grid display -->
-							echo('<span class="info-courseName grid-only">
-							'.$infoCourse.' 
-							</span>');
-
-							echo('<span class="info-keywords">
-							'.$keywords.'
-							</span>');
-
-							echo('<span class="info-keywords">
-							Last Updated: '.$lastUpdated.'
-							</span>');
-
-							echo('<span class="info-keywords">
-							Author: '.$author.'
-							</span>');
-
-							
-							echo('<div class="pull-right">
-
-							
-							<span class="info-rating">
-								<span class="info-rating-bg">
-								');
-							 //   <!-- Bar color (|CHANGE WIDTH BY STYLING | BACKGROUND COLOR RED)--> 
-							   
-									echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>
-
-							
-								</span>');
-							//  <!-- Color for percentage (NEUTRAL % OF RATING UP)-->
-								echo('<span class="info-rating-labels">
+					<article class="comment">
+								<span class="comment-img">
+									<button id="upButton-'.$commentCount.'" type="button" onclick="upVote(this.id)" class="vote upvoteBtn">
+									
+										<svg class="upArrow" viewBox="0 0 11.5 6.4" xml:space="preserve">
+										<path d="M11.4,5.4L6,0C5.9-0.1,5.8-0.1,5.8-0.1c-0.1,0-0.2,0-0.2,0.1
+									L0.1,5.4C0,5.6,0,5.7,0.1,5.9l0.4,0.4c0.1,0.1,0.3,0.1,0.4,0l4.8-4.8l4.8,4.8c0.1,0.1,0.3,0.1,0.4,0l0.4-0.4
+									C11.5,5.7,11.5,5.6,11.4,5.4z"/>
+										</svg>
+										
+									</button>
+									<h1 class="scoreCounter" id="scoreCounter-'.$commentCount.'">'.$commentScore.'</h1>
+									<button id="downButton-'.$commentCount.'" type="button" onclick="downVote(this.id)" class="vote downvoteBtn">
+									
+									<svg class="downArrow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 11.5 6.4" xml:space="preserve">
+										<path d="M0.1,0.9l5.4,5.4c0.1,0.1,0.1,0.1,0.2,0.1c0.1,0,0.2,0,0.2-0.1
+									l5.4-5.4c0.1-0.1,0.1-0.3,0-0.4L11,0c-0.1-0.1-0.3-0.1-0.4,0L5.8,4.8L0.9,0C0.8-0.1,0.6-0.1,0.5,0L0.1,0.4C0,0.6,0,0.7,0.1,0.9z"/>
+									</svg>
+								</button>
+                </span>
 								
-								  <span class="info-rating-label" style="color: #A1A1A4;">
-									'.$ratingnumber.'% 
-								</span>');
-								
-							
-
-							//    <!-- Location for thumb icons -->
-							echo('
-								<span class="info-thumbs">
-								<a href="#" data-toggle="tooltip" data-placement="bottom" title="You can only rate an info item inside the page">
-									<i class="thumbs-up far fa-thumbs-up"></i>
-									<i class="thumbs-down far fa-thumbs-down"></i>
-								</a>
-								</span>
-							
-							</span>
-								
-							</span>');
-							
-							
-							if ($infocategory == "Tip"){
-								echo('<span class="info-category">
-									<span class="category tip active" style="background:#ffc83f;">Tip</span>
-									<span class="category walkthrough">Walkthrough</span>
-									<span class="category hardwarespecific">Hardware Specific</span>
-									<span class="category general">General</span>        
-								</span>');
-							}
-							else if ($infocategory == "Walkthrough"){
-								echo('<span class="info-category">
-									<span class="category tip">Tip</span>
-									<span class="category walkthrough active" style="background:blue;">Walkthrough</span>
-									<span class="category hardwarespecific">Hardware Specific</span>
-									<span class="category general">General</span>        
-								</span>');
-							}
-							else if ($infocategory == "Hardware Specific"){
-								echo('<span class="info-category">
-									<span class="category tip">Tip</span>
-									<span class="category walkthrough">Walkthrough</span>
-									<span class="category hardwarespecific active" style="background:green;">Hardware Specific</span>
-									<span class="category general">General</span>        
-								</span>');
-							}
-							else {
-								echo('<span class="info-category">
-								<span class="category tip">Tip</span>
-								<span class="category walkthrough">Walkthrough</span>
-								<span class="category hardwarespecific">Hardware Specific</span>
-								<span class="category general active" style="background:black;">General</span>        
-								</span>');
-							}
-
-						echo('
+							<div class="comment-body">
+								<div class="text">
+									<p>'.$commentText.'</p>
+								</div>
+								<p class="attribution">by <a href="#non">'.$commentAuthor.'</a> at '.$commentDate.'</p><a class="editCommentBtn" href="#editComment">Edit</a><p class="lastUpdatedComment">Last Updated: '.$lastUpdatedDate.'</p>  
 							</div>
-						</li>
-						');
+						</article>
+						
+					');
+				}
 
-					}
+		?>
+
+		<!-- Page Content -->
+		<br>
+	  <div class="container">
+
+	    <div class="row">
+	      <div class="col-md-8 mb-5">
+	        <h2 id="titleHeader"><?php echo("$infoTitle"); ?></h2>
+	        <hr>
+	        <p class="infoText"><?php echo("$infoDetails"); ?></p>
+					<h2>Artifacts</h2>
+					 <hr>
+					 <!-- Place for loop to generate files here with attachedFile(file);-->
+				 	<?php attachedFile("scrub.php"); ?>
+					<br>
+					<a href="/pages/browse.php"><button class="btn primary">Back to Browse</button></a>
+					<br><br>
+					<h2>Comments</h2>
+					 <hr>
+					 <!-- COMMENT SECTION START -->
+					<section id="commentSection" class="comments">
+						<?php 
+						generateComment($commentScore, $commentAuthor, $commentDate, $commentText, $commentCount, $lastUpdatedDate); 
+						generateComment($commentScore, $commentAuthor, $commentDate, $commentText, 1, $lastUpdatedDate); 
+						generateComment($commentScore, $commentAuthor, $commentDate, $commentText, 2, $lastUpdatedDate); 
+						generateComment($commentScore, $commentAuthor, $commentDate, $commentText, 3, $lastUpdatedDate); 
+						generateComment($commentScore, $commentAuthor, $commentDate, "I am nagging I am a typical online user that hates everything and talks down on everything wow look at my comment ", 4, $lastUpdatedDate); 
+						
+						
 						?>
-						<!-- SINGLE ITEM END -->
+				
+						<!-- INCLUDE ALL COMMENTS WITHIN COMMENTS /SECTION BELOW-->
+					</section>​
 
-						<?php
-							makeInfoItem($infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory);
-						?>
+					<div id="commentBox">
+						<textarea maxlength="140" name="commentText" id="commentMessage" placeholder="Add your comment!"></textarea>
+						<input type="button" value="Add Comment" onclick="commentSubmit()">
+					</div>
 
-					   <!-- PLACE ALL ITEMS WITHIN ul info-class grid -->
-						</ul>  
-			</div>
-			
-			<div class="col-sm-4">
-			</div>
-		</div>
+				
 
+<!-- COMMENT SECTION END -->
+
+	      </div>
+
+	      <div class="col-md-4 mb-5" >
+	        <h2>Details</h2>
+					<hr>
+					<address>
+						<strong>Relevant Course:</strong>
+						<p><?php echo("$infoCourse"); ?></p>
+					</address>
+					<address>
+						<strong>Type:</strong>
+	          <p>Walkthrough</p>
+	        </address>
+					<address>
+						<strong>Keywords:</strong>
+						<p>		Keywords<?php
+								?>
+						</p>
+					</address>
+					<address>
+						<strong>Author:</strong>
+	          <p>Author</p>
+					</address>
+					<address>
+						<strong>Last Updated:</strong>
+	          <p><?php echo("$lastUpdated"); ?></p>
+					</address>
+					<address>
+						<h6><strong>Did you find this info item helpful?</strong></h6>
+						<button class="ratingBtn" id="helpfulBtn">Helpful</button><button class="ratingBtn" id="unhelpfulBtn">Not Helpful</button>
+					</address>
+
+	      </div>
+	    </div>
+			<br>
+
+
+	 
+			</form>
  </body>
-  <script type="text/javascript">
+	<script type="text/javascript">
+
+	function commentSubmit() {
+		let body = getItemFormDataAsJson();
+
+		if (body.title == '') {
+			return snackbar('Please provide an item title', 'error');
+		}
+		if (body.details == '') {
+			return snackbar('Please provide details', 'error');
+		}
+		
+		body.action = 'createItem';
+		
+		api.post('/items.php', body)
+			.then(res => {
+				alert("success");
+				snackbar(res.message, 'success');
+			})
+			.catch(err => {
+				alert("error");
+				snackbar(err.message, 'error');
+			});	
+	}
+
+	
+	 //START UPVOTE DOWNVOTE
+
+function upVote(id) {
+	var upvote = 1;
+	var numberTag = id.substr(-1);
+	var score = Number(document.getElementById("scoreCounter-"+ numberTag).innerHTML);
+	score = score+1;
+	document.getElementById("scoreCounter-"+ numberTag).innerHTML = score;
+  checkScore(numberTag);
+}
+
+function downVote(id) {
+	var downvote = -1;
+	var numberTag = id.substr(-1);
+	var score = Number(document.getElementById("scoreCounter-"+ numberTag).innerHTML);	
+	score = score-1;
+	document.getElementById("scoreCounter-"+ numberTag).innerHTML = score;
+  checkScore(numberTag);
+}
+
+var x = document.getElementById("commentSection").childElementCount;
+for (var i = 0; i < x; i++){
+	checkScore(i);
+}
+
+function checkScore(numberTag) {
+	var number = document.getElementById("scoreCounter-"+ numberTag).innerHTML;
+	var score = document.getElementById("scoreCounter-"+ numberTag);
+  if (number < 0) {
+    score.style.color = "#FF586C";
+  } else if (number > 0) {
+    score.style.color = "#6CC576";
+  } else {
+    score.style.color = "#666666";
+  }
+}
+
+
+	/**
+	 * Serializes the form and returns a JSON object with the keys being the values of the `name` attribute.
+	 * @returns {object}
+	 */
+	function getItemFormDataAsJson() {
+		let form = document.getElementById('formItem');
+		let data = new FormData(form);
+
+		let json = {
+			title: $('#titleHeader').val()
+		};
+		for (const [key, value] of data.entries()) {
+			json[key] = value;
+		}
+		
+		//alert(JSON.stringify(json));
+
+		return json;
+	}
+
+
+
+	 // END UPVOTE DOWNVOTE
   
 	$('#keywordsInput').on('change', function() {
 		key = $('#keywordsInput').val();
@@ -327,5 +369,35 @@ function generateCourses(){
 	}
 	
 	$('#createItemBtn').on('click', onCreateItemClick);
+ 
+
+	// For Comment Box
+	$(document).ready(function () {
+    var comment = $('div#commentBox textarea'),
+        counter = '',
+        counterValue = 140, //change this to set the max character count
+        minCommentLength = 10, //set minimum comment length
+        $commentValue = comment.val(),
+        $commentLength = $commentValue.length,
+        submitButton = $('div#commentBox input[type=button]').hide();
+  
+    $('div#commentBox').prepend('<span class="counter"></span>').append('<p class="info">Min length: <span></span></p>');
+    counter = $('span.counter');
+    counter.html(counterValue); //display your set max length
+    comment.attr('maxlength', counterValue); //apply max length to textarea
+    $('div#commentBox').find('p.info > span').html(minCommentLength);
+    // everytime a key is pressed inside the textarea, update counter
+    comment.keyup(function () {
+      var $this = $(this);
+      $commentLength = $this.val().length; //get number of characters
+      counter.html(counterValue - $commentLength); //update counter
+      if ($commentLength > minCommentLength - 1) {
+        submitButton.fadeIn(200);
+      } else {
+        submitButton.fadeOut(200);
+      }
+    });
+  });
+
   </script>
 </html>

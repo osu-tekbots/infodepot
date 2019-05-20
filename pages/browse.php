@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/shared/css/browse.css">
+    <link rel="stylesheet" href="../assets/css/browse.css">
 
     <!-- FontAwesome CSS --> 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -25,7 +25,6 @@
         </nav>
 -->
         <br>
-        <h4>Filtering</h4>
         <div class="filterOptions">
             <input class="form-control" id="filterInput" type="text" placeholder="Search...">
 
@@ -118,15 +117,7 @@
 
         <!-- SINGLE ITEM START -->
     <?php
-        $dao = new DataAccess\InfoDepotItemsDao($dbConn);
-/*
-        $infoCourse = "Course Name";
-        $infoTitle= "Info Title";
-        $ratingnumber = 74;
-        
-        $lastUpdated = "04/25/19";
-*/
-        
+        $dao = new DataAccess\InfoDepotItemsDao($dbConn);        
 
         /* WORK THAT STILL NEEDS TO HAPPEN
         
@@ -158,24 +149,37 @@
                     $numberUpvoted = 15;
                     $numberDownvoted = 15;
                     $author = "Billy Bob Jeremy";
+                    $infoId = $item->getId();
 
                     $infoTitle = $item->getTitle();
                     //echo 'Details: ' . $item->getDetails();
                     $lastUpdated = $item->getDateUpdated()->format('M d Y');
                     $infoCourse = $item->getCourse()->getCode();
-                makeInfoItem($itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory);
+                    $helpfulCount = $item->getHelpfulCount();
+                    $unhelpfulCount = $item->getUnhelpfulCount();
+                makeInfoItem($infoId, $itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $helpfulCount, $unhelpfulCount, $infocategory);
                 $itemCount = $itemCount + 1;
             }
         }
 
         
         
-        function makeInfoItem($itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $numberUpvoted, $numberDownvoted, $infocategory){
+        function makeInfoItem($infoId, $itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $helpfulCount, $unhelpfulCount, $infocategory){
             
-            // Get rating number from number of upvotes and downvotes - 1 decimal place
-            $ratingnumber = mt_rand(0, 100);
-
-            echo('<li class="info-item" id="item'.$itemCount.'">');
+            $totalCount = $unhelpfulCount + $helpfulCount;
+            if ($totalCount == 0)
+            {
+                $ratingNumber = 50;
+            }
+            else {
+            $ratingNumber = ($helpfulCount / $totalCount) * 100;
+            }
+            
+            //$ratingNumber = mt_rand(0, 100);
+            echo('
+            <li class="info-item" id="item'.$itemCount.'">
+            <a href="/pages/viewItem.php?id='.$infoId.'">
+            ');
             
             // <!-- Put Course Name Here for list disply - NEED TO ADD FOR GRID DISPLAY TOO -->
             echo('<span class="info-courseName list-only">
@@ -184,7 +188,7 @@
             
             // <!-- Put Title of Info Snippet -->
             echo('<span class="info-title">
-            '.$infoTitle.'
+            <strong>'.$infoTitle.'</strong>
             </span>');
             
             // <!-- Put Course Name Here for grid display -->
@@ -205,31 +209,38 @@
             Last Updated: '.$lastUpdated.'
             </span>');
 
-            $sortRatingNumber = $ratingnumber;
+            $sortRatingNumber = $ratingNumber;
             if (strlen($sortRatingNumber) == 1){
                 $sortRatingNumber = '0'.$sortRatingNumber;
-                $ratingnumber = "&nbsp;&nbsp;".$ratingnumber;
+                $ratingNumber = "&nbsp;&nbsp;".$ratingNumber;
             }
-            echo('<span style="display:none">Rating Number: '.$sortRatingNumber.'</span>');
+            echo('<span style="display:none">Rating Number: '.$sortRatingNumber.'</span>
+            
+            </a>');
+            
 
             echo('<div class="pull-right">
 
             
             <span class="info-rating">
+
+            <a data-toggle="tooltip" data-placement="bottom" title="'.$numberUpvoted.' | '.$numberDownvoted.'">
                 <span class="info-rating-bg">
+
                 ');
              //   <!-- Bar color (|CHANGE WIDTH BY STYLING | BACKGROUND COLOR RED)--> 
                
-                    echo('<span class="info-rating-fg" style="width: '.$ratingnumber.'%; background-color: #8DC63F;"></span>
-
-            
-                </span>');
+                    echo('
+                    
+                    <span class="info-rating-fg" style="width: '.$ratingNumber.'%; background-color: #8DC63F;"></span>
+                </span>
+                </a>');
             //  <!-- Color for percentage (NEUTRAL % OF RATING UP)-->
                 echo('<span class="info-rating-labels">
                 
                   <span class="info-rating-label-'.$itemCount.'" style="color: #A1A1A4;">
-                  <a data-toggle="tooltip" data-placement="bottom" title="'.$ratingnumber.'% of users found this item helpful">
-                    '.$ratingnumber.'% 
+                  <a data-toggle="tooltip" data-placement="bottom" title="'.$ratingNumber.'% of users found this item helpful">
+                    '.$ratingNumber.'% 
                   </a>
                 </span>');
                 
