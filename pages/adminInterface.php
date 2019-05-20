@@ -20,7 +20,6 @@ $css = array(
 include_once PUBLIC_FILES . '/modules/header.php';
 
 ?>
-<br/>
 <div id="page-top">
 
 	<div id="wrapper">
