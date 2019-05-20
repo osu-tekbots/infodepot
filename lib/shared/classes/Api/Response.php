@@ -35,13 +35,13 @@ class Response {
     /**
      * Serialize the response into a JSON string.
      *
-     * @return void
+     * @return string
      */
     public function serialize() {
         return \json_encode(array(
             'code' => $this->code,
             'message' => $this->message,
-            'content' => $this->content != null ? \json_encode($this->content) : null
+            'content' => $this->content
         ));
     }
 
