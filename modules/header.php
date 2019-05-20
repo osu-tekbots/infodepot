@@ -7,6 +7,9 @@
  * and CSS stylesheets to be included when the page loads in the browser. These additional files will be included
  * **after** the default scripts and styles already included in the header.
  */
+
+include_once PUBLIC_FILES . '/modules/button.php';
+
 if (!session_id()) {
     session_start();
 }
@@ -37,6 +40,7 @@ $css = array_merge(
         'assets/css/image-picker.css',
 		'assets/css/editbutton.css',
         'assets/css/capstone.css',
+		'assets/css/infodepot.css',
         'assets/shared/css/snackbar.css',
 		'assets/shared/css/browse.css',
         array(
@@ -96,10 +100,37 @@ $js = array_merge(
         'assets/js/image-picker.min.js'
     ), $js
 );
-// Setup the navigation links
-$navlinks = array(
-    'BROWSE' => 'browse',
+
+
+$loggedIn = isset($_SESSION['userID']) && !empty($_SESSION['userID']);
+
+//TODO FIXME: change loggedIn variable 
+$loggedIn = true;
+
+// Setup the buttons to use in the header
+// All users
+$buttons = array(
+    'Browse Items' => 'pages/browse.php'
 );
+// Signed in users
+if ($loggedIn) {
+    $buttons['My Items'] = 'pages/myItems.php';
+
+    // Admin only
+	//TODO FIXME: uncomment out this check
+    //if (isset($_SESSION['accessLevel']) && $_SESSION['accessLevel'] == 'Admin') {
+        $buttons['Admin'] = 'pages/adminInterface.php';
+    //}
+}
+
+// All users
+$buttons['Info'] = 'pages/info.php';
+
+if ($loggedIn) {
+    $buttons['Logout'] = 'pages/logout.php';
+} else {
+    $buttons['Login'] = 'pages/login.php';
+}
 ?>
 
 <!DOCTYPE html>
@@ -153,32 +184,13 @@ $navlinks = array(
             </div>
         </a>
         <nav class="navigation">
-            <ul>
-            <?php 
-            foreach ($navlinks as $title => $link) {
-                echo "
-                <a href='$link'>
-                    <li>$title</li>
-                </a>
-                ";
-            }
-            // The last link is the SIGN IN or the PROFILE link
-            if($isLoggedIn) {
-                echo "
-                <a href='profile/'>
-                    <li>PROFILE</li>
-                </a>
-                ";
-            } else { 
-                echo "
-                <a href='signin'>
-                    <li>SIGN IN</li>
-                </a>
-                ";
-            }
-            ?>
-
-            </ul>
+            <form class="form-inline">
+                <?php 
+                foreach ($buttons as $title => $link) {
+                    echo createLinkButton($link, $title);
+                }
+                ?>
+            </form>
         </nav>
     </header>
 

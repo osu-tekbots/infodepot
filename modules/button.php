@@ -9,7 +9,7 @@
 function createLinkButton($path, $name) {
     return "
 	<a href='$path'>
-		<button class='btn btn-outline-primary capstone-nav-btn' type='button'><h6>$name</h6></button>
+		<button class='btn btn-outline-dark infoDepotItemMenuBtn' type='button'><h5>$name</h5></button>&nbsp;&nbsp;
 	</a>
 	";
 }
