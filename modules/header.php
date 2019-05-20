@@ -125,7 +125,7 @@ if ($loggedIn) {
 
 // All users
 $buttons['Info'] = 'pages/info.php';
-
+ 
 if ($loggedIn) {
     $buttons['Logout'] = 'pages/logout.php';
 } else {
