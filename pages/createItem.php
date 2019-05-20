@@ -26,8 +26,6 @@ $courses = $dao->getAllInfoDepotCourses();
 //fixme: maybe need this 
 //allowIf($authorizedToProceed, 'pages/index.php');
 
-//include_once PUBLIC_FILES . '/modules/admin-review.php';
-
 $title = 'Create Item';
 
 include_once PUBLIC_FILES . '/modules/header.php';
@@ -116,6 +114,7 @@ $('#keywordsInput').autocomplete({
 <script type="text/javascript">
 var availableTags = [
 <?php
+
 	$availableKeywords = $keywordsDao->getAllKeywords();
 	foreach ($availableKeywords as $k) {
 		echo '"' . $k->getName() . '",';
@@ -150,10 +149,10 @@ var availableTags = [
 								Add Up To 5 Keywords to Project: <font size="2" style="color:red;">*required</font><br>
 								<font size="2">Press Enter after each keyword.</font>
 							</label>
-							<input id="keywordsInput" name="keywords" class="form-control">
+							<input id="keywordsInput" class="form-control input">
 						</div>
 						<br>
-						<div id="keywordsDiv">
+						<div id="keywordsDiv" name="keywords">
 						</div>
 					</div>
 					<br>
