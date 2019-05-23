@@ -1,5 +1,6 @@
 <?php
 use DataAccess\InfoDepotItemsDao;
+use DataAccess\InfoDepotCommentsDao;
 use Model\InfoDepotCourse;
 
 if (!session_id()) {
@@ -147,7 +148,7 @@ $infoCourse = $item->getCourse()->getCode();
 					 <!-- Place for loop to generate files here with attachedFile(file);-->
 				 	<?php attachedFile("scrub.php"); ?>
 					<br>
-					<a href="/pages/browse.php"><button class="btn primary">Back to Browse</button></a>
+					<button onclick="window.location.href = '/pages/browse.php'" class="btn btn-primary">Back to Browse</button>
 					<br><br>
 					<h2>Comments</h2>
 					 <hr>
@@ -211,13 +212,14 @@ $infoCourse = $item->getCourse()->getCode();
 	    </div>
 			<br>
 
-
+			<input name="id" style="display:none;" value="<?php echo($pID)?>"> 
 	 
 			</form>
  </body>
 	<script type="text/javascript">
 
 	function commentSubmit() {
+		
 		let body = getItemFormDataAsJson();
 
 		if (body.title == '') {
@@ -227,8 +229,9 @@ $infoCourse = $item->getCourse()->getCode();
 			return snackbar('Please provide details', 'error');
 		}
 		
-		body.action = 'createItem';
-		
+		body.action = 'createComment';
+		alert(body.id);
+
 		api.post('/items.php', body)
 			.then(res => {
 				alert("success");
@@ -238,6 +241,8 @@ $infoCourse = $item->getCourse()->getCode();
 				alert("error");
 				snackbar(err.message, 'error');
 			});	
+			
+			alert("yeajfajdjoa");
 	}
 
 	
@@ -277,28 +282,6 @@ function checkScore(numberTag) {
     score.style.color = "#666666";
   }
 }
-
-
-	/**
-	 * Serializes the form and returns a JSON object with the keys being the values of the `name` attribute.
-	 * @returns {object}
-	 */
-	function getItemFormDataAsJson() {
-		let form = document.getElementById('formItem');
-		let data = new FormData(form);
-
-		let json = {
-			title: $('#titleHeader').val()
-		};
-		for (const [key, value] of data.entries()) {
-			json[key] = value;
-		}
-		
-		//alert(JSON.stringify(json));
-
-		return json;
-	}
-
 
 
 	 // END UPVOTE DOWNVOTE

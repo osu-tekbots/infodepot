@@ -4,6 +4,7 @@ namespace Api;
 use Model\InfoDepotItem;
 use Model\InfoDepotCourse;
 use Model\User;
+use Model\InfoDepotComment;
 use DataAccess\QueryUtils;
 
 /**
@@ -21,6 +22,10 @@ class ItemsActionHandler extends ActionHandler {
     private $config;
     /** @var \Util\Logger */
     //private $logger;
+    /** @var \DataAccess\CommentsDao */
+    private $commentsDao;
+
+    
 
     /**
      * Constructs a new instance of the action handler for requests on project resources.
@@ -43,10 +48,11 @@ class ItemsActionHandler extends ActionHandler {
 	*/
 
 	//this constructor is without the mailer
-	public function __construct($itemsDao, $usersDao, $config, $logger) {
+	public function __construct($itemsDao, $usersDao, $commentsDao, $config, $logger) {
         parent::__construct($logger);
         $this->itemsDao = $itemsDao;
         $this->usersDao = $usersDao;
+        $this->commentsDao = $commentsDao;
         $this->config = $config;
     }
 
@@ -194,6 +200,52 @@ class ItemsActionHandler extends ActionHandler {
             'Successfully saved project'
         ));
     }
+
+    public function handleCreateComment(){
+         // Ensure all the requred parameters are present
+    
+		//fixme: add required parameters here
+		//$this->requireParam()
+        //EX: $this->requireParam('uid');
+        
+        /*
+		
+		$body = $this->requestBody;
+		
+		
+		$comment = new InfoDepotComment();
+		//fixme check this below
+        $comment->setContent($body['content']);
+        
+        $userid = 'NvTykUuoi7DlzDzH';
+		$newuser = new User();
+        $newuser->setId($userid);
+        $comment->setUser($newuser);
+
+        $newItem = $newInfoDepotItem($body['id']);
+        $comment->setDepotItem($newItem);
+
+        //fixme: 4/29/19 the FormatDate() function isn't working.
+		//error is: <b>Fatal error</b>:  Call to undefined function Api\FormatDate()
+		//im just going to modify the code so that it's compatible as-is.
+		//$item->setDateCreated(FormatDate(new \DateTime()));
+		//$item->setDateUpdated(FormatDate(new \DateTime()));
+		$item->setDateCreated((new \DateTime())->format('Y-m-d H:i:s'));
+		$item->setDateUpdated((new \DateTime())->format('Y-m-d H:i:s'));
+		
+		$ok = $this->commentsDao->addNewInfoDepotComment($comment);
+
+        if (!$ok) {
+            $this->respond(new Response(Response::INTERNAL_SERVER_ERROR, 'Failed to create new comment'));
+        }
+
+        $this->respond(new Response(
+            Response::CREATED, 
+            'Successfully created new comment resource', 
+            array('id' => $comment->getId())
+        ));
+        */
+    }
 	
 	/*
     public function handleSubmitForApproval() {
@@ -339,8 +391,8 @@ class ItemsActionHandler extends ActionHandler {
      */
     public function handleRequest() {
         // Make sure the action parameter exists
-        //$action = $this->getFromBody('action');
-		$action = 'createItem';
+        $action = $this->getFromBody('action');
+		//$action = 'createItem';
         // Call the correct handler based on the action
         switch ($action) {
             case 'createItem':
@@ -351,8 +403,14 @@ class ItemsActionHandler extends ActionHandler {
 			*/
             case 'saveItem':
                 $this->handleSaveItem();
+
+            case 'createComment':
+                //$this->handleCreateComment();
+                $this->respond(new Response(Response::BAD_REQUEST, 'Invalid on item resource'));
             default:
                 $this->respond(new Response(Response::BAD_REQUEST, 'Invalid action on item resource'));
+
+            
         }
     }
 

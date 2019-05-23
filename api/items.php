@@ -7,6 +7,7 @@
 use DataAccess\UsersDao;
 use Api\Response;
 use DataAccess\InfoDepotItemsDao;
+use DataAccess\InfoDepotCommentsDao;
 use Api\ItemsActionHandler;
 use Email\ItemsMailer;
 
@@ -16,9 +17,10 @@ $logger = new Util\Logger($configManager->getLogFilePath(), $configManager->getL
 
 // Setup our data access and handler classes
 $itemsDao = new InfoDepotItemsDao($dbConn, $logger);
+$commentsDao = new InfoDepotCommentsDao($dbConn, $logger);
 $usersDao = new UsersDao($dbConn, $logger);
 //$mailer = new ItemsMailer($configManager->getEmailFromAddress(), $configManager->getEmailSubjectTag());
-$handler = new ItemsActionHandler($itemsDao, $usersDao, $configManager, $logger);
+$handler = new ItemsActionHandler($itemsDao, $usersDao, $commentsDao, $configManager, $logger);
 
 //fixme: once userid is setup, use the authorization
 $handler->handleRequest();
