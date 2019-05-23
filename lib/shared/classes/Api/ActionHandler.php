@@ -48,6 +48,29 @@ class ActionHandler {
     }
 
     /**
+     * Fetches the provided parameter from the request body. This will not work for nested parameters.
+     * 
+     * If the `$require` parameter is set to `true` and the requested key is not in the request body, the script
+     * will respond with a BAD_REQUEST and terminate.
+     *
+     * @param string $param the name of the request body parameter to fetch
+     * @param boolean $require indicates whether to require the parameter. Defaults to true.
+     * @param string $message a message to output if the required parameter is not present. Only used when $require is
+     * true.
+     * @return mixed|null the value if it exists, null otherwise
+     */
+    public function getFromBody($param, $require = true, $message = null) {
+        if($require) {
+            $this->requireParam($param);
+            return $this->requestBody[$param];
+        } else {
+            // Still check so that we don't get an error
+            return isset($this->requestBody[$param]) ? $this->requestBody[$param] : null;
+        }
+        
+    }
+
+    /**
      * Sends the provided response object to the client.
      * 
      * This function will exit the script after invocation.
@@ -58,7 +81,8 @@ class ActionHandler {
     public function respond($response) {
         $this->logger->info('Sending HTTP response: ' . $response->getCode() . ': ' . $response->getMessage());
         \header('Content-Type: application/json; charset=UTF-8');
-        \http_response_code($response->getCode());
+        $code = $response->getCode();
+        header("X-PHP-Response-Code: $code", true, $code);
         echo $response->serialize();
         exit(0);
     }
