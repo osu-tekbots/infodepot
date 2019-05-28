@@ -168,7 +168,7 @@ $infoCourse = $item->getCourse()->getCode();
 					</section>​
 
 					<div id="commentBox">
-						<textarea maxlength="140" name="commentText" id="commentMessage" placeholder="Add your comment!"></textarea>
+						<textarea maxlength="140" name="content" id="commentMessage" placeholder="Add your comment!"></textarea>
 						<input type="button" value="Add Comment" onclick="commentSubmit()">
 					</div>
 
@@ -225,7 +225,7 @@ $infoCourse = $item->getCourse()->getCode();
 		if (body.title == '') {
 			return snackbar('Please provide an item title', 'error');
 		}
-		if (body.details == '') {
+		if (body.content == '') {
 			return snackbar('Please provide details', 'error');
 		}
 		
@@ -241,8 +241,6 @@ $infoCourse = $item->getCourse()->getCode();
 				alert("error");
 				snackbar(err.message, 'error');
 			});	
-			
-			alert("yeajfajdjoa");
 	}
 
 	

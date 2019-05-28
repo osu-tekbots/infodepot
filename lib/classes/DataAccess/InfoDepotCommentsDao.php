@@ -2,6 +2,7 @@
 namespace DataAccess;
 
 use Model\InfoDepotComment;
+use DataAccess\QueryUtils;
 
 /**
  * Houses the logic for database interactions relating to comments in the OSU info depot system.
@@ -81,9 +82,9 @@ class InfoDepotCommentsDao {
 					':userid' => $comment->getUser()->getId(),
 					':itemid' => $comment->getDepotItem()->getId(),
 					':content' => $comment->getContent(),
-					':recommended' => $comment->getRecommended(),
-					':datec' => $comment->getDateCreated(),
-					':dateu' => $comment->getDateUpdated()
+					':rec' => $comment->isRecommended(),
+					':datec' => QueryUtils::FormatDate($comment->getDateCreated()),
+					':dateu' => QueryUtils::FormatDate($comment->getDateUpdated())
 				);
 				$this->conn->execute($sql, $params);
 

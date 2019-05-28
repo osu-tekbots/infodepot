@@ -208,7 +208,7 @@ class ItemsActionHandler extends ActionHandler {
 		//$this->requireParam()
         //EX: $this->requireParam('uid');
         
-        /*
+        
 		
 		$body = $this->requestBody;
 		
@@ -216,13 +216,14 @@ class ItemsActionHandler extends ActionHandler {
 		$comment = new InfoDepotComment();
 		//fixme check this below
         $comment->setContent($body['content']);
+        $comment->setAsRecommended(false);
         
         $userid = 'NvTykUuoi7DlzDzH';
 		$newuser = new User();
         $newuser->setId($userid);
         $comment->setUser($newuser);
 
-        $newItem = $newInfoDepotItem($body['id']);
+        $newItem = new InfoDepotComment($body['id']);
         $comment->setDepotItem($newItem);
 
         //fixme: 4/29/19 the FormatDate() function isn't working.
@@ -230,8 +231,8 @@ class ItemsActionHandler extends ActionHandler {
 		//im just going to modify the code so that it's compatible as-is.
 		//$item->setDateCreated(FormatDate(new \DateTime()));
 		//$item->setDateUpdated(FormatDate(new \DateTime()));
-		$item->setDateCreated((new \DateTime())->format('Y-m-d H:i:s'));
-		$item->setDateUpdated((new \DateTime())->format('Y-m-d H:i:s'));
+		$comment->setDateCreated((new \DateTime()));
+        $comment->setDateUpdated((new \DateTime()));
 		
 		$ok = $this->commentsDao->addNewInfoDepotComment($comment);
 
@@ -244,7 +245,7 @@ class ItemsActionHandler extends ActionHandler {
             'Successfully created new comment resource', 
             array('id' => $comment->getId())
         ));
-        */
+        
     }
 	
 	/*
@@ -405,8 +406,7 @@ class ItemsActionHandler extends ActionHandler {
                 $this->handleSaveItem();
 
             case 'createComment':
-                //$this->handleCreateComment();
-                $this->respond(new Response(Response::BAD_REQUEST, 'Invalid on item resource'));
+                $this->handleCreateComment();
             default:
                 $this->respond(new Response(Response::BAD_REQUEST, 'Invalid action on item resource'));
 
