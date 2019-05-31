@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS info_depot_found_unhelpful (
     idfu_u_id CHAR(16) NOT NULL,
     idfu_idi_id CHAR(16) NOT NULL,
 
-    PRIMARY KEY (idfu_u_id, idfh_idi_id),
+    PRIMARY KEY (idfu_u_id, idfu_idi_id),
     FOREIGN KEY (idfu_u_id) REFERENCES user (u_id),
     FOREIGN KEY (idfu_idi_id) REFERENCES info_depot_item (idi_id)
 );
