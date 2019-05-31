@@ -460,6 +460,7 @@ input[type="radio"].toggle-right + label {
 
 /* Single Info Item View CSS */
 .infoText {
+  overflow: scroll;
   background-color: white;
   border-radius: 15px;
   padding: 20px;

@@ -208,8 +208,6 @@ class ItemsActionHandler extends ActionHandler {
 		//$this->requireParam()
         //EX: $this->requireParam('uid');
         
-        
-		
 		$body = $this->requestBody;
 		
 		
@@ -246,6 +244,22 @@ class ItemsActionHandler extends ActionHandler {
             array('id' => $comment->getId())
         ));
         
+    }
+
+    public function handleRatedHelpful(){
+        $this->respond(new Response(
+            Response::CREATED, 
+            'Inside helpful function', 
+            array('id' => 5)
+        ));
+    }
+
+    public function handleRatedUnhelpful(){
+        $this->respond(new Response(
+            Response::CREATED, 
+            'Inside unhelpful function', 
+            array('id' => 5)
+        ));
     }
 	
 	/*
@@ -407,6 +421,10 @@ class ItemsActionHandler extends ActionHandler {
 
             case 'createComment':
                 $this->handleCreateComment();
+            case 'ratedHelpful':
+                $this->handleRatedHelpful();
+            case 'ratedUnhelpful':
+                $this->handleRatedUnhelpful();
             default:
                 $this->respond(new Response(Response::BAD_REQUEST, 'Invalid action on item resource'));
 

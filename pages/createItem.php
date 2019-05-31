@@ -10,6 +10,8 @@ if (!session_id()) {
 // Make sure the user is logged in and allowed to be on this page
 include PUBLIC_FILES . '/lib/shared/authorize.php';
 
+
+
 //$isAdmin = $_SESSION['accessLevel'] == 'Admin';
 
 //fixme: use for edit item
@@ -90,6 +92,12 @@ function generateCourses(){
 
 ?>
 
+<!-- include summernote css/js -->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
+
+
+
 <script type="text/javascript">
 $('#keywordsInput').on('change', function() {
     key = $('#keywordsInput').val();
@@ -126,6 +134,10 @@ var availableTags = [
 <!doctype html>
 <html lang="en">
   <body>
+	<br><br><br><br>
+				<!-- Create the editor container -->
+				<textarea id="summernote" name="editordata"></textarea>
+
 		<div class="container-fluid">
 			<div class="col-sm-4">
 				<!-- code for creating a new item below. -->
@@ -317,7 +329,28 @@ var availableTags = [
 		</div>
 
  </body>
-  <script type="text/javascript">
+
+	<script type="text/javascript">
+
+$(document).ready(function() {
+  $('#summernote').summernote({
+  toolbar: [
+		['style', ['bold', 'italic', 'underline', 'clear']],
+		['para', ['ul', 'ol']],
+		['font', ['strikethrough', 'superscript', 'subscript']],
+		['color', ['color']],
+		['insert', ['link', 'picture']]
+	],
+	placeholder: 'Write details here...',
+	codeviewFilter: false,
+  codeviewIframeFilter: true,
+	shortcuts: false,
+	disableDragAndDrop: true,
+	popover: false
+});
+
+});
+
   
 	$('#keywordsInput').on('change', function() {
 		key = $('#keywordsInput').val();
@@ -340,10 +373,12 @@ var availableTags = [
 	function getItemFormDataAsJson() {
 		let form = document.getElementById('formItem');
 		let data = new FormData(form);
+		
+		var text = $('#summernote').summernote('code');
 
 		let json = {
 			title: $('#titleInput').val(),
-			details: $('#detailsInput').val(),
+			details: text,
 			course: $('#courseSelect').val()
 		};
 		for (const [key, value] of data.entries()) {
@@ -362,6 +397,8 @@ var availableTags = [
 	function onCreateItemClick() {
 		//fixme: confirmed, is working json
 		let body = getItemFormDataAsJson();
+
+		(body.details).replace(/\"/g, "");
 
 		if (body.title == '') {
 			return snackbar('Please provide an item title', 'error');

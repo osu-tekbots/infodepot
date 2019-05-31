@@ -2,6 +2,7 @@
 use DataAccess\InfoDepotItemsDao;
 use DataAccess\InfoDepotCommentsDao;
 use Model\InfoDepotCourse;
+use Util\Security;
 
 if (!session_id()) {
     session_start();
@@ -142,7 +143,8 @@ $infoCourse = $item->getCourse()->getCode();
 	      <div class="col-md-8 mb-5">
 	        <h2 id="titleHeader"><?php echo("$infoTitle"); ?></h2>
 	        <hr>
-	        <p class="infoText"><?php echo("$infoDetails"); ?></p>
+					<div class="infoText"><?php echo("$infoDetails"); ?></div>
+					
 					<h2>Artifacts</h2>
 					 <hr>
 					 <!-- Place for loop to generate files here with attachedFile(file);-->
@@ -283,6 +285,22 @@ function checkScore(numberTag) {
 
 
 	 // END UPVOTE DOWNVOTE
+
+ $('#helpfulBtn').on('click', function() {
+	let body = getItemFormDataAsJson();
+
+	body.action = 'ratedHelpful';
+
+	api.post('/items.php', body)
+		.then(res => {
+			alert("success");
+			snackbar(res.message, 'success');
+		})
+		.catch(err => {
+			alert("error");
+			snackbar(err.message, 'error');
+		});
+ });
   
 	$('#keywordsInput').on('change', function() {
 		key = $('#keywordsInput').val();

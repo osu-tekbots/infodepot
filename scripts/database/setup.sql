@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS info_depot_item (
     idi_id CHAR(16) NOT NULL,
     idi_u_id CHAR(16) NOT NULL,
     idi_title VARCHAR(256) NOT NULL,
-    idi_details TEXT NOT NULL,
+    idi_details LONGTEXT NOT NULL,
     idi_idcr_id INT NOT NULL,
     idi_date_created DATETIME NOT NULL,
     idi_date_updated DATETIME,
