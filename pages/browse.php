@@ -74,6 +74,54 @@
                             <option></option>
                         </select>
                     </div>
+
+            
+                    <div class="form-group">
+                        <label for="courseFilterSelect">Keyword Filter</label>
+                        <select class="form-control" id="keywordFilterSelect" onchange="filterSelectChanged(this)">
+                            <option></option>
+                            <option>Keyword</option>
+                            <option>ECE</option>
+                            <option>General Knowledge</option>
+                            <option>ECE 271</option>
+                            <option>ECE 323</option>
+                            <option>ECE 342</option>
+                            <option>ECE 352</option>
+                            <option>ECE 353</option>
+                            <option>ECE 372</option>
+                            <option>ECE 391</option>
+                            <option>ECE 413</option>
+                            <option>ECE 418</option>
+                            <option>ECE 431</option>
+                            <option>ECE 432</option>
+                            <option>ECE 437</option>
+                            <option>ECE 443</option>
+                            <option>ECE 463</option>
+                            <option>ECE 472</option>
+                            <option>ECE 474</option>
+                            <option>ECE 478</option>
+                            <option>ECE 483</option>
+                            <option>ECE 485</option>
+                            <option>ECE 499</option>
+                            <option>ECE 507</option>
+                            <option>ECE 518</option>
+                            <option>ECE 520</option>
+                            <option>ECE 531</option>
+                            <option>ECE 532</option>
+                            <option>ECE 537</option>
+                            <option>ECE 563</option>
+                            <option>ECE 570</option>
+                            <option>ECE 572</option>
+                            <option>ECE 574</option>
+                            <option>ECE 583</option>
+                            <option>ECE 585</option>
+                            <option>ECE 599</option>
+                            <option>ECE 616</option>
+                            <option>ECE 627</option>
+                            <option>ECE 669</option>
+                            <option></option>
+                        </select>
+                    </div>
             
                 
             
@@ -155,8 +203,12 @@
                     //echo 'Details: ' . $item->getDetails();
                     $lastUpdated = $item->getDateUpdated()->format('M d Y');
                     $infoCourse = $item->getCourse()->getCode();
-                    $helpfulCount = $item->getHelpfulCount();
-                    $unhelpfulCount = $item->getUnhelpfulCount();
+                   // $helpfulCount = $item->getHelpfulCount();
+                    //$unhelpfulCount = $item->getUnhelpfulCount();
+
+                    $helpfulCount = $dao->getAllInfoDepotItemUpvotes($infoId);
+                    $unhelpfulCount = $dao->getAllInfoDepotItemDownvotes($infoId);
+
                 makeInfoItem($infoId, $itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $helpfulCount, $unhelpfulCount, $infocategory);
                 $itemCount = $itemCount + 1;
             }
@@ -165,7 +217,6 @@
         
         
         function makeInfoItem($infoId, $itemCount, $infoTitle, $infoCourse, $keywords, $lastUpdated, $author, $helpfulCount, $unhelpfulCount, $infocategory){
-            
             $totalCount = $unhelpfulCount + $helpfulCount;
             if ($totalCount == 0)
             {

@@ -301,6 +301,22 @@ function checkScore(numberTag) {
 			snackbar(err.message, 'error');
 		});
  });
+
+ $('#unhelpfulBtn').on('click', function() {
+	let body = getItemFormDataAsJson();
+
+	body.action = 'ratedUnhelpful';
+
+	api.post('/items.php', body)
+		.then(res => {
+			alert("success");
+			snackbar(res.message, 'success');
+		})
+		.catch(err => {
+			alert("error");
+			snackbar(err.message, 'error');
+		});
+ });
   
 	$('#keywordsInput').on('change', function() {
 		key = $('#keywordsInput').val();

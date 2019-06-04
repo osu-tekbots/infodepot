@@ -247,17 +247,42 @@ class ItemsActionHandler extends ActionHandler {
     }
 
     public function handleRatedHelpful(){
+        $body = $this->requestBody;
+
+        $projectid = $body['id'];
+
+                // FIX ME CHANGE TO ACTUAL USER ID
+        $userid = 'NvTykUuoi7DlzDzH';
+		
+		$ok = $this->itemsDao->upvoteInfoDepotItem($userid, $projectid);
+
+        if (!$ok) {
+            $this->respond(new Response(Response::INTERNAL_SERVER_ERROR, 'Failed to upvote info depot item'));
+        }
+        
         $this->respond(new Response(
             Response::CREATED, 
-            'Inside helpful function', 
+            'Successfully Rated Helpful', 
             array('id' => 5)
         ));
     }
 
     public function handleRatedUnhelpful(){
+        $body = $this->requestBody;
+
+        $projectid = $body['id'];
+        // FIX ME CHANGE TO ACTUAL USER ID
+        $userid = 'NvTykUuoi7DlzDzH';
+		
+		$ok = $this->itemsDao->downvoteInfoDepotItem($userid, $projectid);
+
+        if (!$ok) {
+            $this->respond(new Response(Response::INTERNAL_SERVER_ERROR, 'Failed to downupvote info depot item'));
+        }
+        
         $this->respond(new Response(
             Response::CREATED, 
-            'Inside unhelpful function', 
+            'Successfully Rated Unhelpful', 
             array('id' => 5)
         ));
     }

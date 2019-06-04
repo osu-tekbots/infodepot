@@ -119,6 +119,8 @@ class InfoDepotItemsDao {
         }
     }
 
+
+
     /**
      * Add a new entry for an info depot item in the database.
      *
@@ -154,6 +156,125 @@ class InfoDepotItemsDao {
 				return false;
         }
     }
+
+
+      /**
+     * Add a new entry for an upvote of an info depot item in the database.
+     *
+     * @param \Model\InfoDepotItem $user_id the user ID to add to the database and $item_id the item ID to add to the database
+     * @return boolean true if the execution is successful, false otherwise
+     */
+    public function upvoteInfoDepotItem($user_id, $item_id) {
+		try {
+				//6/03/19: Implemented, needs testing.
+			
+				//idi_id is generated using a secure cryptic ID generator found in 
+				//./shared/classes/Util/IdGenerator.php.
+				$sql = 'INSERT INTO info_depot_found_helpful ';
+				$sql .= '(idfh_u_id, idfh_idi_id)';
+				$sql .= 'VALUES (:user_id, :item_id)';
+				
+				$params = array(
+					':user_id' => $user_id,
+					':item_id' => $item_id
+				);
+				$this->conn->execute($sql, $params);
+
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to upvote item: ' . $e->getMessage());
+
+				return false;
+        }
+    }
+
+         /**
+     * Add a new entry for an downvote of an info depot item in the database.
+     *
+     * @param \Model\InfoDepotItem $user_id the user ID to add to the database and $item_id the item ID to add to the database
+     * @return boolean true if the execution is successful, false otherwise
+     */
+    public function downvoteInfoDepotItem($user_id, $item_id) {
+		try {
+				//6/03/19: Implemented, needs testing.
+			
+				//idi_id is generated using a secure cryptic ID generator found in 
+				//./shared/classes/Util/IdGenerator.php.
+				$sql = 'INSERT INTO info_depot_found_unhelpful ';
+				$sql .= '(idfu_u_id, idfu_idi_id)';
+				$sql .= 'VALUES (:user_id, :item_id)';
+				
+				$params = array(
+					':user_id' => $user_id,
+					':item_id' => $item_id
+				);
+				$this->conn->execute($sql, $params);
+
+				return true;
+			} catch (\Exception $e) {
+				$this->logError('Failed to downvote item: ' . $e->getMessage());
+
+				return false;
+        }
+    }
+
+    /**
+     * Fetches all upvotes that can be associated with an info depot item in the database.
+     *
+     * @return $results['count'] of upvotes if successful, false otherwise
+     */
+    public function getAllInfoDepotItemUpvotes($item_id) {
+		try {
+			//6/03/19: Implemented, needs testing.
+			
+			$sql = 'SELECT COUNT(*) AS "count" FROM info_depot_found_helpful WHERE idfh_idi_id = :item_id';
+
+            $params = array(
+                ':item_id' => $item_id
+            );
+
+            $results = $this->conn->query($sql, $params);
+            if (!$results || \count($results) == 0) {
+                return false;
+            }
+
+            return $results[0]['count'];
+        } catch (\Exception $e) {
+            $this->logError('Failed to get upvote count: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+        /**
+     * Fetches all upvotes that can be associated with an info depot item in the database.
+     *
+     * @return $results['count'] of upvotes if successful, false otherwise
+     */
+    public function getAllInfoDepotItemDownvotes($item_id) {
+		try {
+			//6/03/19: Implemented, needs testing.
+			
+            $sql = 'SELECT COUNT(*) AS "count" FROM info_depot_found_unhelpful WHERE idfu_idi_id = :item_id';
+            
+
+            $params = array(
+                ':item_id' => $item_id
+            );
+
+            $results = $this->conn->query($sql, $params);
+            if (!$results || \count($results) == 0) {
+                return false;
+            }
+
+            return $results[0]['count'];
+        } catch (\Exception $e) {
+            $this->logError('Failed to get downvote count: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+
+
 
     /**
      * Updates an existing entry for an info depot item in the database.
