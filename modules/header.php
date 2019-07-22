@@ -115,6 +115,7 @@ $buttons = array(
 // Signed in users
 if ($loggedIn) {
     $buttons['My Items'] = 'pages/myItems.php';
+    $buttons['Create Item'] = 'pages/createItem.php';
 
     // Admin only
 	//TODO FIXME: uncomment out this check
