@@ -14,7 +14,7 @@ if (!session_id()) {
     session_start();
 }
 $baseUrl = $configManager->getBaseUrl();
-$title = (isset($title) ? $title : 'InfoDepot') . ' | OSU';
+$title = (isset($title) ? $title : 'Info Depot') . ' | OSU';
 // If the URL contains a query string parameter 'contentOnly=true', then we won't display a header or a footer
 if(!isset($contentOnly)) {
     $contentOnly = isset($_GET['contentOnly']) && $_GET['contentOnly'] == 'true';
@@ -115,6 +115,7 @@ $buttons = array(
 // Signed in users
 if ($loggedIn) {
     $buttons['My Items'] = 'pages/myItems.php';
+    $buttons['Create Item'] = 'pages/createItem.php';
 
     // Admin only
 	//TODO FIXME: uncomment out this check
@@ -180,7 +181,7 @@ if ($loggedIn) {
         <a class="header-main-link" href="">
             <div class="logo">
                 <img class="logo" src="assets/img/osu-logo-white.png" />
-                <h1><span id="projectPrefix"></span>InfoDepot</h1>
+                <h1><span id="projectPrefix"></span>Info Depot</h1>
             </div>
         </a>
         <nav class="navigation">

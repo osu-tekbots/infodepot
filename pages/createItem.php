@@ -135,6 +135,7 @@ var availableTags = [
 <html lang="en">
   <body>
 	<br><br><br><br>
+	
 				<!-- Create the editor container -->
 				<textarea id="summernote" name="editordata"></textarea>
 
@@ -146,10 +147,7 @@ var availableTags = [
 						<label for="titleInput">Title: <font size="2" style="color:red;">*required</font><br></label>
 						<input class="form-control" id="titleInput" placeholder="Enter title here...">
 					</div>
-					<div class="form-group">
-						<label for="detailsInput">Details: <font size="2" style="color:red;">*required</font><br></label>
-						<textarea class="form-control" id="detailsInput" placeholder="Enter details here..." rows="3"></textarea>
-					</div>
+
 					<label for="courseSelect">Relevant Course: </label>
 					<select class="form-control" id="courseSelect">
 					  <?php generateCourses(); ?>
