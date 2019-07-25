@@ -94,11 +94,38 @@ $infoCourse = $item->getCourse()->getCode();
 				$commentCount = 0;
 				$lastUpdatedDate = "12:34 PM, 13 May 2018";
 
+				$dao = new DataAccess\InfoDepotCommentsDao($dbConn);
+
+				function displayAllComment($item){
+						global $dao; 
+
+						$comments = $dao->getInfoDepotCommentsForItem($item);
+					
+					if ($comments){
+						echo('<h2>Comments</h2>
+						<hr>
+					   <section id="commentSection" class="comments">');
+							$commentCount = 0;
+						foreach($comments as $comment){
+							$commentCount++;
+							$commentScore = mt_rand(-50, 50);
+							$commentAuthor = $comment->getUser();
+							$commentDate = $comment->getDateCreated()->format('M d Y');
+							$commentText = $comment->getContent();
+							$lastUpdatedDate = $comment->getDateUpdated()->format('M d Y');
+
+							$commentAuthor = "Bill";
+							//$commentDate = "1/0/19";
+							//$commentText = "Text";
+							//$lastUpdatedDate = "1/0/20";
+							generateComment($commentScore, $commentAuthor, $commentDate, $commentText, $commentCount, $lastUpdatedDate);
+						}
+						echo('</section>');
+					}
+
+				}
 
 				function generateComment($commentScore, $commentAuthor, $commentDate, $commentText, $commentCount, $lastUpdatedDate){
-					// REMOVE 
-					$commentScore = mt_rand(-50, 50);
-					//
 					echo('
 
 					<article class="comment">
@@ -152,31 +179,23 @@ $infoCourse = $item->getCourse()->getCode();
 					<br>
 					<button onclick="window.location.href = '/pages/browse.php'" class="btn btn-primary">Back to Browse</button>
 					<br><br>
-					<h2>Comments</h2>
-					 <hr>
 					 <!-- COMMENT SECTION START -->
-					<section id="commentSection" class="comments">
-						<?php 
-						generateComment($commentScore, $commentAuthor, $commentDate, $commentText, $commentCount, $lastUpdatedDate); 
-						generateComment($commentScore, $commentAuthor, $commentDate, $commentText, 1, $lastUpdatedDate); 
-						generateComment($commentScore, $commentAuthor, $commentDate, $commentText, 2, $lastUpdatedDate); 
-						generateComment($commentScore, $commentAuthor, $commentDate, $commentText, 3, $lastUpdatedDate); 
-						generateComment($commentScore, $commentAuthor, $commentDate, "I am nagging I am a typical online user that hates everything and talks down on everything wow look at my comment ", 4, $lastUpdatedDate); 
-						
-						
-						?>
-				
-						<!-- INCLUDE ALL COMMENTS WITHIN COMMENTS /SECTION BELOW-->
-					</section>​
 
+						<?php 
+						displayAllComment($item);
+		
+						?>
+						<!-- COMMENT SECTION END -->
+					
 					<div id="commentBox">
 						<textarea maxlength="140" name="content" id="commentMessage" placeholder="Add your comment!"></textarea>
 						<input type="button" value="Add Comment" onclick="commentSubmit()">
 					</div>
 
+
 				
 
-<!-- COMMENT SECTION END -->
+
 
 	      </div>
 
@@ -217,6 +236,7 @@ $infoCourse = $item->getCourse()->getCode();
 			<input name="id" style="display:none;" value="<?php echo($pID)?>"> 
 	 
 			</form>
+			
  </body>
 	<script type="text/javascript">
 
