@@ -18,6 +18,7 @@
         <!-- NAV BAR -->
         <?php
         include_once PUBLIC_FILES . '/modules/header.php';
+        use Util\Security;
         ?>
     <!--
         <nav class="navbar fixed-top navbar-light bg-light">
@@ -172,8 +173,6 @@
         STILL NEED TO GRAB DATA FOR 
             KEYWORDS
             INFO CATEGORY
-            NUMBER UPVOTES
-            NUMBER DOWNVOTES
             AUTHOR
 
         STILL NEEDS TO BE DONE
@@ -194,15 +193,16 @@
 
                     $keywords = "Keyword1, Keyword2, Keyword3, Keyword4, Keyword5";
                     $infocategory = "Hardware Specific";
-                    $numberUpvoted = 15;
-                    $numberDownvoted = 15;
                     $author = "Billy Bob Jeremy";
                     $infoId = $item->getId();
 
-                    $infoTitle = $item->getTitle();
+                    $infoTitle = Security::HtmlEntitiesEncode($item->getTitle());
                     //echo 'Details: ' . $item->getDetails();
                     $lastUpdated = $item->getDateUpdated()->format('M d Y');
                     $infoCourse = $item->getCourse()->getCode();
+                    $author = Security::HtmlEntitiesEncode($item->getUser()->getFirstName())
+                        . ' '
+                        . Security::HtmlEntitiesEncode($item->getUser()->getLastName());
                    // $helpfulCount = $item->getHelpfulCount();
                     //$unhelpfulCount = $item->getUnhelpfulCount();
 

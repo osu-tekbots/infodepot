@@ -170,9 +170,19 @@ class InfoDepotItemsDao {
 			
 				//idi_id is generated using a secure cryptic ID generator found in 
 				//./shared/classes/Util/IdGenerator.php.
-				$sql = 'INSERT INTO info_depot_found_helpful ';
+                /*
+                $sql = 'INSERT INTO info_depot_found_helpful ';
 				$sql .= '(idfh_u_id, idfh_idi_id)';
-				$sql .= 'VALUES (:user_id, :item_id)';
+                $sql .= 'VALUES (:user_id, :item_id)';
+                */
+
+                $sql = 'DELETE FROM info_depot_found_unhelpful ';
+                $sql .= 'WHERE idfu_u_id = :user_id ';
+                $sql .= 'AND idfu_idi_id = :item_id; ';
+                
+                $sql .= 'INSERT IGNORE INTO info_depot_found_helpful ';
+                $sql .= '(idfh_u_id, idfh_idi_id) ';
+                $sql .= 'VALUES (:user_id, :item_id)';
 				
 				$params = array(
 					':user_id' => $user_id,
@@ -200,15 +210,26 @@ class InfoDepotItemsDao {
 			
 				//idi_id is generated using a secure cryptic ID generator found in 
 				//./shared/classes/Util/IdGenerator.php.
-				$sql = 'INSERT INTO info_depot_found_unhelpful ';
+                /*
+                $sql = 'INSERT INTO info_depot_found_unhelpful ';
 				$sql .= '(idfu_u_id, idfu_idi_id)';
-				$sql .= 'VALUES (:user_id, :item_id)';
-				
+                $sql .= 'VALUES (:user_id, :item_id)';
+                */
+                 // NEW QUERY (deletes row from helpful item, inserts into row)
+                 
+                $sql = 'DELETE FROM info_depot_found_helpful ';
+                $sql .= 'WHERE idfh_u_id = :user_id ';
+                $sql .= 'AND idfh_idi_id = :item_id; ';
+                
+                $sql .= 'INSERT IGNORE INTO info_depot_found_unhelpful ';
+                $sql .= '(idfu_u_id, idfu_idi_id) ';
+                $sql .= 'VALUES (:user_id, :item_id)';
+                
 				$params = array(
 					':user_id' => $user_id,
 					':item_id' => $item_id
 				);
-				$this->conn->execute($sql, $params);
+                $this->conn->execute($sql, $params);
 
 				return true;
 			} catch (\Exception $e) {

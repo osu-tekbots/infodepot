@@ -3,15 +3,28 @@ use DataAccess\InfoDepotItemsDao;
 use DataAccess\InfoDepotCommentsDao;
 use Model\InfoDepotCourse;
 use Util\Security;
+include_once('../lib/dbManager.php');
 
 if (!session_id()) {
     session_start();
 }
 
+
 // Make sure the user is logged in and allowed to be on this page
 include PUBLIC_FILES . '/lib/shared/authorize.php';
 
-$isAdmin = $_SESSION['accessLevel'] == 'Admin';
+
+$isLoggedIn = isset($_SESSION['userID']) && $_SESSION['userID'] . '' != '';
+if($loggedIn) {
+	$userId = $_SESSION['userID'];
+	$isAdmin = $_SESSION['accessLevel'] == 'Admin';
+} else {
+	// Change back to null
+	$userId = 'NvTykUuoi7DlzDzH';
+	$isAdmin = false;
+}
+
+//$isAdmin = $_SESSION['accessLevel'] == 'Admin';
 
 //fixme: use for edit item
 //$pId = $_GET['id'];
@@ -59,7 +72,11 @@ $infoDetails = $item->getDetails();
 $lastUpdated = $item->getDateUpdated()->format('M d Y');
 $infoCourse = $item->getCourse()->getCode();
 
+echo($pID);
+echo(' - ');
+echo($userId);
 
+//$votedHelpful = checkItemHelpfulVote($userId, $pID);
 
 
 ?>
@@ -85,14 +102,6 @@ $infoCourse = $item->getCourse()->getCode();
 					</a>
 					');
 				}
-
-				// Generation of a single element
-				$commentScore = mt_rand(0, 100);
-				$commentAuthor = "Billy Hill Bobby";
-				$commentDate = "12:04 PM, 13 May 2018";
-				$commentText = "This is a comment and text within the comment";
-				$commentCount = 0;
-				$lastUpdatedDate = "12:34 PM, 13 May 2018";
 
 				$dao = new DataAccess\InfoDepotCommentsDao($dbConn);
 
@@ -177,7 +186,7 @@ $infoCourse = $item->getCourse()->getCode();
 					 <!-- Place for loop to generate files here with attachedFile(file);-->
 				 	<?php attachedFile("scrub.php"); ?>
 					<br>
-					<button onclick="window.location.href = '/pages/browse.php'" class="btn btn-primary">Back to Browse</button>
+					<button onclick="window.location.href = './pages/browse.php'" class="btn btn-primary">Back to Browse</button>
 					<br><br>
 					 <!-- COMMENT SECTION START -->
 
@@ -256,8 +265,8 @@ $infoCourse = $item->getCourse()->getCode();
 
 		api.post('/items.php', body)
 			.then(res => {
-				alert("success");
 				snackbar(res.message, 'success');
+				setTimeout(function(){ location.reload(); }, 2000);
 			})
 			.catch(err => {
 				alert("error");
@@ -274,7 +283,7 @@ function upVote(id) {
 	var score = Number(document.getElementById("scoreCounter-"+ numberTag).innerHTML);
 	score = score+1;
 	document.getElementById("scoreCounter-"+ numberTag).innerHTML = score;
-  checkScore(numberTag);
+  	//checkScore(numberTag);
 }
 
 function downVote(id) {
@@ -283,13 +292,16 @@ function downVote(id) {
 	var score = Number(document.getElementById("scoreCounter-"+ numberTag).innerHTML);	
 	score = score-1;
 	document.getElementById("scoreCounter-"+ numberTag).innerHTML = score;
-  checkScore(numberTag);
+  	//checkScore(numberTag);
 }
+
+/*
 
 var x = document.getElementById("commentSection").childElementCount;
 for (var i = 0; i < x; i++){
 	checkScore(i);
 }
+
 
 function checkScore(numberTag) {
 	var number = document.getElementById("scoreCounter-"+ numberTag).innerHTML;
@@ -302,6 +314,7 @@ function checkScore(numberTag) {
     score.style.color = "#666666";
   }
 }
+*/
 
 
 	 // END UPVOTE DOWNVOTE
