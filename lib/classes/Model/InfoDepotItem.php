@@ -99,7 +99,7 @@ class InfoDepotItem {
 
     /**
      * Get the value of details
-     */ 
+     */
     public function getDetails() {
         return $this->details;
     }
@@ -108,7 +108,7 @@ class InfoDepotItem {
      * Set the value of details
      *
      * @return  self
-     */ 
+     */
     public function setDetails($details) {
         $this->details = $details;
 
